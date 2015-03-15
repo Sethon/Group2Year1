@@ -4,7 +4,7 @@
 package Controller;
 
 /**
- * @author bastianbertram
+ * @author Bastian Bertram
  *
  */
 public class BentleyExecutor {
