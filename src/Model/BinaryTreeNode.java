@@ -107,6 +107,11 @@ public class BinaryTreeNode<E> implements Position<E> {
 		}
 	}
 	
+	public boolean isBalanced() {
+		return (((getLeftChild().getHeight() - getRightChild().getHeight()) >= -1) && 
+		((getLeftChild().getHeight() - getRightChild().getHeight()) <= 1));
+	}
+	
 	public boolean isRoot() {
 		return (parent == null);
 	}
