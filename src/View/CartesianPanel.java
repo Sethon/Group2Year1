@@ -229,7 +229,7 @@ public class CartesianPanel extends JPanel {
 				clear();
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				modificationMode = false;
+				modificationMode = false;				
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 				if (modificationMode && lines.get(lines.size() - 1).getVertices().size() > 1) {

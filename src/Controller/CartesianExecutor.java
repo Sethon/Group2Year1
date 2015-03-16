@@ -3,7 +3,8 @@
  */
 package Controller;
 
-import View.CartesianPanel;
+
+import View.MainFrame;
 
 /**
  * @author Bastian Bertram
@@ -12,7 +13,7 @@ import View.CartesianPanel;
 public class CartesianExecutor {
 	public static void main(String[] args) {
 		
-		CartesianPanel cartesian = new CartesianPanel();
+		MainFrame frame = new MainFrame();
 		
 	}
 }
