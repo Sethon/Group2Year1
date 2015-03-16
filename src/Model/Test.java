@@ -26,6 +26,7 @@ public class Test {
 		//bst.remove(bst.root(), new Point2D(4.0, 100.0));
 		inOrder(bst.root());
 		System.out.println(bst.isBalanced(bst.root()));
+		System.out.println(bst.size());
 	}
 	
 	public static <E> void inOrder(BinaryTreeNode<E> v) {
