@@ -82,134 +82,130 @@ public class BinarySearchTree implements BinaryTree<Double>{
 		m.setElement(tmp);
 	}
 	
+	public void balance(){
+		boolean balanced = false;
+		//Checks if unbalanced
+		
+	}
 	
-	public Double remove2(BinaryTreeNode<Double> n, double e) {
+	public void rotateLeft(BinaryTreeNode<Double> n){    //Rotate the chosen node to the the left
+		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
+			BinaryTreeNode<Double> m = n.getLeftChild(); //Make a new treenode with the left part of the chosen node.
+			n.setLeftChild(n.getParent());               //n's left child is his old parent.
+			(n.getLeftChild()).setRightChild(m);         //n's new left child needs to have the new treenode as his right child.
+			(n.getLeftChild()).setParent(n);             //n's new left child will have n as parent.
+		}
+		else{
+			BinaryTreeNode<Double> m = n.getLeftChild();                         //Make a new treenode with the left part of the chosen node.
+			n.setLeftChild(n.getParent());										 //n's left child is his old parent.
+			(n.getLeftChild()).setRightChild(m);                                 //n's new left child needs to have the new treenode as his right child.
+			if(((n.getParent()).getParent()).getLeftChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as left child
+				((n.getParent()).getParent()).setLeftChild(n);
+			else																 //Parent of parent (soon to be parent of n) needs n as right child
+				((n.getParent()).getParent()).setRightChild(n);
+			(n.getLeftChild()).setParent(n);									 //n's new left child will have n as parent.
+		}
+	}
+	
+	public void rotateRight(BinaryTreeNode<Double> n){   //Rotate the chosen node to the the right
+		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
+			BinaryTreeNode<Double> m = n.getRightChild(); //Make a new treenode with the right part of the chosen node.
+			n.setRightChild(n.getParent());               //n's Right child is his old parent.
+			(n.getRightChild()).setLeftChild(m);         //n's new Right child needs to have the new treenode as his Left child.
+			(n.getRightChild()).setParent(n);             //n's new Right child will have n as parent.
+		}
+		else{
+			BinaryTreeNode<Double> m = n.getRightChild();                         //Make a new treenode with the Right part of the chosen node.
+			n.setRightChild(n.getParent());										 //n's Right child is his old parent.
+			(n.getRightChild()).setLeftChild(m);                                 //n's new Right child needs to have the new treenode as his Left child.
+			if(((n.getParent()).getParent()).getRightChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as Right child
+				((n.getParent()).getParent()).setRightChild(n);
+			else																 //Parent of parent (soon to be parent of n) needs n as Left child
+				((n.getParent()).getParent()).setLeftChild(n);
+			(n.getRightChild()).setParent(n);									 //n's new Right child will have n as parent.
+		}
+		
+	}
+	
+	public Double remove(BinaryTreeNode<Double> n, double e) {
 		if (n == null) {
 			return null;
-		} else {
+		}  else {
 			BinaryTreeNode<Double> m = search(e, n);
 			Double element = m.getElement();
-			if (m.isExternal()) {
-				m = null;
+			if(size == 1) {
+				root = null;
 				return element;
-			} else {
-				BinaryTreeNode<Double> s = m.getRightChild();
-				if (s == null) {
-					(m.getLeftChild()).setParent(m.getParent());
-					if((m.getParent()).getLeftChild() == m) {
-						(m.getParent()).setLeftChild(lc);
-					} else {
-						
-					}
+			}
+			if (m.isExternal()) {
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(null);
+				} else {
+					(m.getParent()).setRightChild(null);
 				}
 			}
-		}
-	}
-	public Double remove1(BinaryTreeNode<Double> n, double e) {
-		if (n != null) {
-			BinaryTreeNode<Double> m;
-			while((m = search(e, n)) != null) {
-				Double element = m.getElement();
+			else if (m.getRightChild() != null && m.getLeftChild() == null) {
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(m.getRightChild());
+					(m.getRightChild()).setParent(m.getParent());
+				} else {
+					(m.getParent()).setRightChild(m.getRightChild());
+					(m.getRightChild()).setParent(m.getParent());
+				}
+			}
+			else if (m.getRightChild() == null && m.getLeftChild() != null) {
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(m.getParent());
+				} else {
+					(m.getParent()).setRightChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(m.getParent());
+				}
+			}
+			
+			else if (m.getRightChild() != null && m.getLeftChild() != null) {
 				BinaryTreeNode<Double> s = m.getRightChild();
-				if(s != null)
-				{
-					while(s.getLeftChild() != null) {
+				if (s.getLeftChild() == null) {
+					s.setLeftChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(s);
+					if(!(m.isRoot())) {
+						s.setParent(m.getParent());
+						if((m.getParent()).getLeftChild() == m) {
+							(m.getParent()).setLeftChild(s);
+						} else {
+							(m.getParent()).setRightChild(s);
+						}
+					} else {
+						s.setParent(null);
+						root = s;
+					}
+				} else {
+					while (s.getLeftChild() != null) {
 						s = s.getLeftChild();
 					}
-					swapElements(s, m);
+					s.setLeftChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(s);
+					s.setRightChild(m.getLeftChild());
+					(m.getRightChild()).setParent(s);
 					(s.getParent()).setLeftChild(null);
-					s.setElement(null);
-					s.setParent(null);
-					return element;
-				}
-				else{
-					m = null;
-					return element;
-				}
-			}
-			return null;
-		}
-		else
-			return null;
-	}
-	
-	public double remove(BinaryTreeNode<Double> n, double e) {
-		if (n != null){
-			while(n.isInternal()){
-				if((double) e == (double) n.getElement()){
-					double element = (double) n.getElement();
-					if(n.getRightChild() == null && n.getLeftChild() == null){//If n's children are null
-						if((n.getParent()).getRightChild() == n){ //n is the rightChild of n's parent.
-							(n.getParent()).setRightChild(null);
-							n.setParent(null);
-							n.setElement(null);
-							return element;
+					if(!(m.isRoot())) {
+						s.setParent(m.getParent());
+						if((m.getParent()).getLeftChild() == m) {
+							(m.getParent()).setLeftChild(s);
+						} else {
+							(m.getParent()).setRightChild(s);
 						}
-						else if((n.getParent()).getLeftChild() == n){//n is the leftChild of n's parent.
-							(n.getParent()).setLeftChild(null);
-							n.setParent(null);
-							n.setElement(null);
-							return element;
-						}
-					}
-					
-					else if(n.getRightChild() != null && n.getLeftChild() == null){ //If n's rightChild is not null.
-						if((n.getParent()).getRightChild() == n){ //n is the rightChild of n's parent.
-							(n.getRightChild()).setParent(n.getParent());
-							(n.getParent()).setRightChild(n.getRightChild());
-							n.setParent(null);
-							n.setElement(null);
-							return element;
-						}
-						else if((n.getParent()).getLeftChild() == n){ //n is the leftChild of n's parent.
-							(n.getRightChild()).setParent(n.getParent());
-							(n.getParent()).setLeftChild(n.getRightChild());
-							n.setParent(null);
-							n.setElement(null);
-							return element;
-						}
-					}
-					
-					else if(n.getRightChild() == null && n.getLeftChild() != null){ //If n's leftChild is not null.
-						if((n.getParent()).getRightChild() == n){ //n is the rightChild of n's parent.
-							(n.getLeftChild()).setParent(n.getParent());
-							(n.getParent()).setRightChild(n.getLeftChild());
-							n.setParent(null);
-							n.setElement(null);
-							return element;
-						}
-						else if((n.getParent()).getLeftChild() == n){ //n is the leftChild of n's parent.
-							(n.getLeftChild()).setParent(n.getParent());
-							(n.getParent()).setLeftChild(n.getLeftChild());
-							n.setParent(null);
-							n.setElement(null);
-							return element;
-						}
-					}
-					
-					else if(n.getRightChild() != null && n.getLeftChild() != null) { //If n's children both are not null
-						BinaryTreeNode<Double> m = n.getRightChild(); //Used for swapping
-						while(m.getElement() != null){
-							m = m.getLeftChild();
-						}
-						m = m.getParent();
-						swapElements(n,m);
-						m.setElement(null);
-						(m.getParent()).setLeftChild(null);
-						m.setParent(null);
-						return element;
+					} else {
+						s.setParent(null);
+						root = s;
 					}
 				}
 				
-				else if((double) e != (double) n.getElement()){ //Recursion if n is not e.
-					if((double) e > (double) n.getElement())
-						return remove(n.getLeftChild(), e);
-					else
-						return remove(n.getRightChild(), e);
-				}
-			}
-		}
-		return 0; //Case which will normally not happen.
-	}
 
+			}
+			size--;
+			m = null;
+			return element;
+		}
+	}
 }
