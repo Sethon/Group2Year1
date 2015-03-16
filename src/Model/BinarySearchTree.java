@@ -112,12 +112,12 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		mark.add(n);
 		
 		while (z.isBalanced()) {
-			System.out.println(mark);
+			//System.out.println(mark);
 			mark.add(z);
 			z = z.getParent();
 			//System.out.println("UP");
 		}
-		System.out.println(z);
+		//System.out.println(z);
 		BinaryTreeNode<Point2D> y = mark.get(mark.size() - 1);
 		BinaryTreeNode<Point2D> x = mark.get(mark.size() - 2);
 		
