@@ -9,7 +9,7 @@ public class Test {
 		bst.add(3.0, bst.root());
 		bst.add(2.5, bst.root());
 		bst.add(10.5, bst.root());
-		
+		System.out.println(bst.root().getLeftChild().getHeight());
 		inOrder(bst.root());
 		bst.remove(bst.root(), 3.0);
 		bst.remove(bst.root(), 2.5);

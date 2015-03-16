@@ -103,7 +103,14 @@ public class BinaryTreeNode<E> implements Position<E> {
 		if(isExternal()) {
 			return 1;
 		} else {
-			return (1 + Math.max(leftChild.getHeight(),rightChild.getHeight()));
+			if (leftChild != null && rightChild == null) {
+				return (1 + Math.max(leftChild.getHeight(), 0));
+			}
+			else if (leftChild == null && rightChild != null) {
+				return (1 + Math.max(0, rightChild.getHeight()));
+			} else {
+				return (1 + Math.max(leftChild.getHeight(), rightChild.getHeight()));
+			}
 		}
 	}
 	
