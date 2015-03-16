@@ -99,6 +99,14 @@ public class BinaryTreeNode<E> implements Position<E> {
 		return ((leftChild == null) && (rightChild == null));
 	}
 	
+	public int getHeight() {
+		if(isExternal()) {
+			return 1;
+		} else {
+			return (1 + Math.max(leftChild.getHeight(),rightChild.getHeight()));
+		}
+	}
+	
 	public boolean isRoot() {
 		return (parent == null);
 	}
