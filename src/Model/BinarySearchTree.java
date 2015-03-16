@@ -1,8 +1,9 @@
 package Model;
 
+
+
 import java.util.ArrayList;
-import java.awt.Point;
-import java.awt.geom.Line2D;
+
 
 
 public class BinarySearchTree implements BinaryTree<Point2D>{
@@ -296,11 +297,16 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 			return null;
 		}  else {
 			BinaryTreeNode<Point2D> m = search(e, n);
+			if (m == null) {
+				return null;
+			}
 			Point2D element = m.getElement();
 			if(size == 1) {
 				root = null;
+				size--;
 				return element;
 			}
+			
 			if (m.isExternal()) {
 				if((m.getParent()).getLeftChild() == m) {
 					(m.getParent()).setLeftChild(null);
@@ -309,21 +315,31 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 				}
 			}
 			else if (m.getRightChild() != null && m.getLeftChild() == null) {
-				if((m.getParent()).getLeftChild() == m) {
-					(m.getParent()).setLeftChild(m.getRightChild());
-					(m.getRightChild()).setParent(m.getParent());
+				if (!(m.isRoot())) {
+					if((m.getParent()).getLeftChild() == m) {
+						(m.getParent()).setLeftChild(m.getRightChild());
+						(m.getRightChild()).setParent(m.getParent());
+					} else {
+						(m.getParent()).setRightChild(m.getRightChild());
+						(m.getRightChild()).setParent(m.getParent());
+					}
 				} else {
-					(m.getParent()).setRightChild(m.getRightChild());
-					(m.getRightChild()).setParent(m.getParent());
+					(m.getRightChild()).setParent(null);
+					root = m.getRightChild();
 				}
 			}
 			else if (m.getRightChild() == null && m.getLeftChild() != null) {
-				if((m.getParent()).getLeftChild() == m) {
-					(m.getParent()).setLeftChild(m.getLeftChild());
-					(m.getLeftChild()).setParent(m.getParent());
+				if (!(m.isRoot())) {
+					if((m.getParent()).getLeftChild() == m) {
+						(m.getParent()).setLeftChild(m.getLeftChild());
+						(m.getLeftChild()).setParent(m.getParent());
+					} else {
+						(m.getParent()).setRightChild(m.getLeftChild());
+						(m.getLeftChild()).setParent(m.getParent());
+					}
 				} else {
-					(m.getParent()).setRightChild(m.getLeftChild());
-					(m.getLeftChild()).setParent(m.getParent());
+					(m.getLeftChild()).setParent(null);
+					root = m.getLeftChild();
 				}
 			}
 			
