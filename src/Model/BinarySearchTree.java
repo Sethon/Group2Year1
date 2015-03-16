@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.awt.Point;
 
 
 
@@ -233,6 +234,12 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 			*/
 		}
 		
+	}
+	
+	public boolean contains(Polyline2D p2d, Point2D point){
+		Point2D rayX = new Point2D((double)Integer.MIN_VALUE, point.getY()); //Use ray to go from very small number to point.getX(). If ray touches polyline, do counter++. If counter is odd when ray = point.getX(), it's inside the polytope.
+		
+	
 	}
 	
 	public Point2D remove(BinaryTreeNode<Point2D> n, Point2D e) {
