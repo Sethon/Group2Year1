@@ -24,4 +24,8 @@ public class Point2D implements Point {
 	public double getY() {
 		return coordinates[1];
 	}
+	
+	public String toString() {
+		return "[" + coordinates[0] + ", " + coordinates[1] + "]";
+	}
 }
