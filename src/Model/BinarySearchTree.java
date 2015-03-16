@@ -82,9 +82,30 @@ public class BinarySearchTree implements BinaryTree<Double>{
 		m.setElement(tmp);
 	}
 	
+	public Double remove1(BinaryTreeNode<Double> n, double e) {
+		if (n != null) {
+			BinaryTreeNode<Double> m;
+			while((m = search(e, n)) != null) {
+				Double element = m.getElement();
+				BinaryTreeNode<Double> s = m.getRightChild();
+				while(s != null) {
+					s = s.getLeftChild();
+				}
+				swapElements(s, m);
+				(s.getParent()).setLeftChild(null);
+				s.setElement(null);
+				s.setParent(null);
+				return element;
+			}
+			return null;
+		}
+		else
+			return null;
+	}
+	
 	public double remove(BinaryTreeNode<Double> n, double e) {
-		while(n.isInternal()){
-			if (n != null){
+		if (n != null){
+			while(n.isInternal()){
 				if((double) e == (double) n.getElement()){
 					double element = (double) n.getElement();
 					if(n.getRightChild() == null && n.getLeftChild() == null){//If n's children are null
