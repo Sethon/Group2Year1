@@ -82,6 +82,50 @@ public class BinarySearchTree implements BinaryTree<Double>{
 		m.setElement(tmp);
 	}
 	
+	public void balance(){
+		boolean balanced = false;
+		//Checks if unbalanced
+		
+	}
+	
+	public void rotateLeft(BinaryTreeNode<Double> n){    //Rotate the chosen node to the the left
+		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
+			BinaryTreeNode<Double> m = n.getLeftChild(); //Make a new treenode with the left part of the chosen node.
+			n.setLeftChild(n.getParent());               //n's left child is his old parent.
+			(n.getLeftChild()).setRightChild(m);         //n's new left child needs to have the new treenode as his right child.
+			(n.getLeftChild()).setParent(n);             //n's new left child will have n as parent.
+		}
+		else{
+			BinaryTreeNode<Double> m = n.getLeftChild();                         //Make a new treenode with the left part of the chosen node.
+			n.setLeftChild(n.getParent());										 //n's left child is his old parent.
+			(n.getLeftChild()).setRightChild(m);                                 //n's new left child needs to have the new treenode as his right child.
+			if(((n.getParent()).getParent()).getLeftChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as left child
+				((n.getParent()).getParent()).setLeftChild(n);
+			else																 //Parent of parent (soon to be parent of n) needs n as right child
+				((n.getParent()).getParent()).setRightChild(n);
+			(n.getLeftChild()).setParent(n);									 //n's new left child will have n as parent.
+		}
+	}
+	
+	public void rotateRight(BinaryTreeNode<Double> n){   //Rotate the chosen node to the the right
+		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
+			BinaryTreeNode<Double> m = n.getRightChild(); //Make a new treenode with the right part of the chosen node.
+			n.setRightChild(n.getParent());               //n's Right child is his old parent.
+			(n.getRightChild()).setLeftChild(m);         //n's new Right child needs to have the new treenode as his Left child.
+			(n.getRightChild()).setParent(n);             //n's new Right child will have n as parent.
+		}
+		else{
+			BinaryTreeNode<Double> m = n.getRightChild();                         //Make a new treenode with the Right part of the chosen node.
+			n.setRightChild(n.getParent());										 //n's Right child is his old parent.
+			(n.getRightChild()).setLeftChild(m);                                 //n's new Right child needs to have the new treenode as his Left child.
+			if(((n.getParent()).getParent()).getRightChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as Right child
+				((n.getParent()).getParent()).setRightChild(n);
+			else																 //Parent of parent (soon to be parent of n) needs n as Left child
+				((n.getParent()).getParent()).setLeftChild(n);
+			(n.getRightChild()).setParent(n);									 //n's new Right child will have n as parent.
+		}
+		
+	}
 	
 	public Double remove(BinaryTreeNode<Double> n, double e) {
 		if (n == null) {
