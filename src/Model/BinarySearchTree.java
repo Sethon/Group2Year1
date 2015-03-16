@@ -82,7 +82,21 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		m.setElement(tmp);
 	}
 	
-	
+	public boolean isBalanced(BinaryTreeNode<Point2D> n) {
+		if (n != null) {
+			if (n.isExternal()) {
+				return true;
+			} else {
+				if(n.isBalanced()) {
+					return (isBalanced(n.getLeftChild()) && isBalanced(n.getRightChild()));
+				} else {
+					return false;
+				}
+			}
+		} else {
+			return true;
+		}
+	}
 	
 	public void balance() {
 		
