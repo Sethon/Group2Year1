@@ -39,7 +39,7 @@ public class MainFrame {
 	public MainFrame(){
 		frame = new JFrame();
 //		frame.setSize(700, 350);
-        frame.setTitle("Polygonal Objects");
+        frame.setTitle("Flatland 1.0");
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
