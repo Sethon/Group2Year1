@@ -6,14 +6,14 @@ public class Test {
 		bst.add(new Point2D(3.0, 7.0), bst.root());
 		//bst.add(new Point2D(7.0, 9.0), bst.root());
 		bst.add(new Point2D(1.0, 1.0), bst.root());
-		//bst.add(new Point2D(4.0, 100.0), bst.root());
-		//bst.add(new Point2D(6.0, -5.0), bst.root());
-		//bst.add(new Point2D(8.0, 0.9), bst.root());
+		bst.add(new Point2D(4.0, 100.0), bst.root());
+		bst.add(new Point2D(6.0, -5.0), bst.root());
+		bst.add(new Point2D(8.0, 0.9), bst.root());
 		//System.out.println(bst.isBalanced(bst.root()));
 		//System.out.println(bst.root().getRightChild());
 		inOrder(bst.root());
 		//bst.remove(bst.root(), new Point2D(5.0, 0.0));
-		System.out.println();
+		System.out.println(bst.isBalanced(bst.root()));
 		inOrder(bst.root());
 	}
 	

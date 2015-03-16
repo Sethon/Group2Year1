@@ -141,7 +141,7 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		}
 	}
 	
-	public void rotateLeft(BinaryTreeNode<Point2D> n){    //Rotate the chosen node to the the left
+	public void rotateRight(BinaryTreeNode<Point2D> n){    //Rotate the chosen node to the the left
 		if ((n.getParent()).isRoot()) {                   //Check if the parent is the root
 			BinaryTreeNode<Point2D> tmp = n.getRightChild();
 			//System.out.println(tmp);
@@ -189,10 +189,10 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		}
 	}
 	
-	public void rotateRight(BinaryTreeNode<Point2D> n) {   //Rotate the chosen node to the the right
+	public void rotateLeft(BinaryTreeNode<Point2D> n) {   //Rotate the chosen node to the the right
 		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
 			BinaryTreeNode<Point2D> tmp = n.getLeftChild();
-			n.setRightChild(n.getParent());
+			n.setLeftChild(n.getParent());
 			(n.getParent()).setParent(n);
 			(n.getParent()).setRightChild(tmp);
 			if (tmp != null) {
