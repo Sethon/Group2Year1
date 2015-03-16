@@ -86,23 +86,73 @@ public class BinarySearchTree implements BinaryTree<Double>{
 	public Double remove2(BinaryTreeNode<Double> n, double e) {
 		if (n == null) {
 			return null;
-		} else {
+		}  else {
 			BinaryTreeNode<Double> m = search(e, n);
 			Double element = m.getElement();
 			if (m.isExternal()) {
-				m = null;
-				return element;
-			} else {
-				BinaryTreeNode<Double> s = m.getRightChild();
-				if (s == null) {
-					(m.getLeftChild()).setParent(m.getParent());
-					if((m.getParent()).getLeftChild() == m) {
-						(m.getParent()).setLeftChild(lc);
-					} else {
-						
-					}
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(null);
+				} else {
+					(m.getParent()).setRightChild(null);
 				}
 			}
+			else if (m.getRightChild() != null && m.getLeftChild() == null) {
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(m.getRightChild());
+					(m.getRightChild()).setParent(m.getParent());
+				} else {
+					(m.getParent()).setRightChild(m.getRightChild());
+					(m.getRightChild()).setParent(m.getParent());;
+				}
+			}
+			else if (m.getRightChild() == null && m.getLeftChild() != null) {
+				if((m.getParent()).getLeftChild() == m) {
+					(m.getParent()).setLeftChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(m.getParent());
+				} else {
+					(m.getParent()).setRightChild(m.getLeftChild());
+					(m.getLeftChild()).setParent(m.getParent());
+				}
+			}
+			
+			else if (m.getRightChild() != null && m.getLeftChild() != null) {
+				System.out.println(m.getRightChild());
+				BinaryTreeNode<Double> s = m.getRightChild();
+				while (s.getLeftChild() != null) {
+					s = s.getLeftChild();
+				}
+				System.out.println(m.getRightChild());
+				if (!(m.isRoot())) {
+					if((s.getParent()).getLeftChild() == s) {
+						(s.getParent()).setLeftChild(null);
+					} else {
+						(s.getParent()).setRightChild(null);
+					}
+					s.setParent(m.getParent());
+					if((m.getParent()).getLeftChild() == m) {
+						(m.getParent()).setLeftChild(s);
+					} else {
+						(m.getParent()).setRightChild(s);
+					}
+					System.out.println(m.getRightChild());
+				} else {
+					System.out.println(m.getRightChild());
+					if((s.getParent()).getLeftChild() == s) {
+						(s.getParent()).setLeftChild(null);
+					} else {
+						(s.getParent()).setRightChild(null);
+					}
+					s.setParent(null);
+				}
+				(m.getLeftChild()).setParent(s);
+				System.out.println(m.getRightChild());
+				(m.getRightChild()).setParent(s);
+				s.setRightChild(m.getRightChild());
+				s.setLeftChild(m.getLeftChild());
+				
+			}
+			m = null;
+			return element;
 		}
 	}
 	public Double remove1(BinaryTreeNode<Double> n, double e) {
