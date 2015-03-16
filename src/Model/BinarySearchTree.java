@@ -88,14 +88,21 @@ public class BinarySearchTree implements BinaryTree<Double>{
 			while((m = search(e, n)) != null) {
 				Double element = m.getElement();
 				BinaryTreeNode<Double> s = m.getRightChild();
-				while(s.getLeftChild() != null) {
-					s = s.getLeftChild();
+				if(s != null)
+				{
+					while(s.getLeftChild() != null) {
+						s = s.getLeftChild();
+					}
+					swapElements(s, m);
+					(s.getParent()).setLeftChild(null);
+					s.setElement(null);
+					s.setParent(null);
+					return element;
 				}
-				swapElements(s, m);
-				(s.getParent()).setLeftChild(null);
-				s.setElement(null);
-				s.setParent(null);
-				return element;
+				else{
+					m = null;
+					return element;
+				}
 			}
 			return null;
 		}
