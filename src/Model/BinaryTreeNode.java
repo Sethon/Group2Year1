@@ -135,4 +135,8 @@ public class BinaryTreeNode<E> implements Position<E> {
 	public boolean isRoot() {
 		return (parent == null);
 	}
+	
+	public String toString() {
+		return element.toString();
+	}
 }
