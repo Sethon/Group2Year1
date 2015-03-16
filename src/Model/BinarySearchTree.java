@@ -83,7 +83,7 @@ public class BinarySearchTree implements BinaryTree<Double>{
 	}
 	
 	
-	public Double remove2(BinaryTreeNode<Double> n, double e) {
+	public Double remove(BinaryTreeNode<Double> n, double e) {
 		if (n == null) {
 			return null;
 		}  else {
