@@ -143,6 +143,68 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		}
 	}
 	
+	public void balanceAfterRemove(BinaryTreeNode<Point2D> n) {
+		BinaryTreeNode<Point2D> z = n;
+		
+		while (z.isBalanced()) {
+			//System.out.println(mark);
+			z = z.getParent();
+			//System.out.println("UP");
+		}
+		//System.out.println(z);
+		BinaryTreeNode<Point2D> y;
+		if (z.getLeftChild() != null && z.getRightChild() != null) {
+			if (z.getLeftChild().getHeight() >= z.getRightChild().getHeight()) {
+				y = z.getLeftChild();
+			} else {
+				y = z.getRightChild();
+			}
+		}
+		else if (z.getLeftChild() == null && z.getRightChild() != null) {
+			y = z.getRightChild();
+		} 
+		else {
+			y = z.getLeftChild();
+		}
+		
+		BinaryTreeNode<Point2D> x;
+		if (y.getLeftChild() != null && y.getRightChild() != null) {
+			if (y.getLeftChild().getHeight() >= y.getRightChild().getHeight()) {
+				x = y.getLeftChild();
+			} else {
+				x = y.getRightChild();
+			}
+		}
+		else if (y.getLeftChild() == null && y.getRightChild() != null) {
+			x = y.getRightChild();
+		} 
+		else {
+			x = y.getLeftChild();
+		}
+		
+		if (y == z.getLeftChild() && x == y.getLeftChild()) {
+			System.out.println("LEFT LEFT");
+			rotateRight(y);
+		}
+		else if (y == z.getLeftChild() && x == y.getRightChild()) {
+			System.out.println("LEFT RIGHT");
+			rotateLeft(x);
+			rotateRight(x);
+		}
+		else if (y == z.getRightChild() && x == y.getRightChild()) {
+			System.out.println("RIGHT RIGHT");
+			rotateLeft(y);
+		}
+		else if (y == z.getRightChild() && x == y.getLeftChild()) {
+			System.out.println("RIGHT LEFT");
+			rotateRight(x);
+			rotateLeft(x);
+		}
+		if (!(isBalanced(root))) {
+			balanceAfterRemove(z.getParent());
+		}
+	}
+	
 	public void rotateRight(BinaryTreeNode<Point2D> n){    //Rotate the chosen node to the the left
 		if ((n.getParent()).isRoot()) {                   //Check if the parent is the root
 			BinaryTreeNode<Point2D> tmp = n.getRightChild();
@@ -306,6 +368,7 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 				size--;
 				return element;
 			}
+			BinaryTreeNode<Point2D> actionNode = m.getParent();
 			
 			if (m.isExternal()) {
 				if((m.getParent()).getLeftChild() == m) {
@@ -385,6 +448,9 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 			}
 			size--;
 			m = null;
+			if (!(isBalanced(root))) {
+				balanceAfterRemove(actionNode);
+			}
 			return element;
 		}
 	}
