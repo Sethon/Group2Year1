@@ -11,7 +11,13 @@ public class Test {
 		bst.add(10.5, bst.root());
 		
 		inOrder(bst.root());
-		System.out.println(bst.remove2(bst.root(), 5.0));
+		bst.remove2(bst.root(), 3.0);
+		bst.remove2(bst.root(), 2.5);
+		bst.remove2(bst.root(), 7.0);
+		bst.remove2(bst.root(), 10.5);
+		bst.remove2(bst.root(), 6.0);
+		bst.remove2(bst.root(), 4.0);
+		bst.remove2(bst.root(), 5.0);
 		System.out.println();
 		inOrder(bst.root());
 	}
