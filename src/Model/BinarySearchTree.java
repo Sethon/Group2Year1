@@ -82,10 +82,10 @@ public class BinarySearchTree implements BinaryTree<Double>{
 		m.setElement(tmp);
 	}
 	
-	public BinaryTreeNode<Double> remove(BinaryTreeNode<Double> n, double e) {
+	public double remove(BinaryTreeNode<Double> n, double e) {
 		while(n.isInternal()){
 			if (n != null){
-				if((double) e = (double) n.getElement()){
+				if((double) e == (double) n.getElement()){
 					double element = (double) n.getElement();
 					if(n.getRightChild() == null && n.getLeftChild() == null){//If n's children are null
 						if((n.getParent()).getRightChild() == n){ //n is the rightChild of n's parent.
@@ -143,8 +143,8 @@ public class BinarySearchTree implements BinaryTree<Double>{
 						}
 						m = m.getParent();
 						swapElements(n,m);
-						m.getElement() == null;
-						(m.getParent()).getLeftChild(null);
+						m.setElement(null);
+						(m.getParent()).setLeftChild(null);
 						m.setParent(null);
 						return element;
 					}
