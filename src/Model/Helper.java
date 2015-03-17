@@ -105,36 +105,71 @@ public class Helper {
 	}
 	*/
 	public static boolean contains(Polyline2D p2d, Point2D point){
-		Point2D left = new Point2D(Double.MIN_VALUE, point.getY());
-		Point2D right = new Point2D(point.getX(), point.getY());
-		boolean containing = false;
-		ArrayList<Point2D> vertices = p2d.vertices();
-		for(int i = 0; i< vertices.size()-1; i++) {
-			if(vertices.get(i+1).getY() != point.getY()) {
-				if(((vertices.get(i)).getY()<=point.getY() || (vertices.get(i+1)).getY()<=point.getY())){
-					if(areIntersect((Point2D) vertices.get(i), (Point2D)vertices.get(i+1), left, right)) {
-System.out.println("Hit the vertices at " + vertices.get(i).getX() + "  " + i);
-						containing = !containing;
-						i++;
-					}
+		Point2D left = new Point2D(-Double.MAX_VALUE, point.getY());
+		
+		int cnt = 0;
+		/*for (int i = 0; i < p2d.vertices().size(); i++) {
+			if (p2d.getVertex(i).getX() == point.getX() && p2d.getVertex(i).getY() == point.getY()) {
+				return true;
+			}
+		}*/
+		for (int i = 0; i < p2d.vertices().size() - 1; i++) {
+			if (p2d.getVertex(i).getY() == point.getY()) {
+				System.out.println("SPECIAL CASE");
+				if (areIntersect(new Point2D(p2d.getVertex(i).getX(), p2d.getVertex(i).getY() + 0.1), p2d.getVertex(i + 1), point, left)) {
+					cnt++;
+				}
+			} 
+			//else if (p2d.getVertex(i + 1).getY() == point.getY()) {
+				//if (areIntersect(new Point2D(p2d.getVertex(i).getX(), p2d.getVertex(i).getY() - 0.1), p2d.getVertex(i + 1), point, left)) {
+					// cnt++;
+				// }
+			/*}*/ else {
+				if (areIntersect(p2d.getVertex(i), p2d.getVertex(i + 1), point, left)) {
+					System.out.println(i);
+					cnt++;
 				}
 			}
-		}	
-			
-		
-		return containing;
+		}
+		System.out.println(cnt);
+		return (cnt % 2 == 1);
+	}
+	
+	private static boolean goesThrough(Polyline2D p2d, Point2D point1, Point2D point2) {
+		double a = (point1.getY() - point1.getY())/(point1.getX() - point1.getX());
+		double b = point1.getY() - a * point1.getX();
+		for (int i = 0; i < p2d.vertices().size(); i++) {
+			if (a*p2d.getVertex(i).getX() + b == p2d.getVertex(i).getY() && ((p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) || (p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) )) {
+				
+			}
+		}
 	}
 	
 	public static boolean areIntersect(Point2D p0, Point2D p1, Point2D p2, Point2D p3) {
 		//one of segments or both are vertical
 		if ((p1.getX() == p0.getX()) && (p3.getX() != p2.getX())) {
-			return (((p0.getX() <= p3.getX()) && (p0.getX() >= p2.getX())) || ((p0.getX() >= p3.getX()) && (p0.getX() <= p2.getX())));
+			boolean isInX = (((p0.getX() <= p3.getX()) && (p0.getX() >= p2.getX())) || ((p0.getX() >= p3.getX()) && (p0.getX() <= p2.getX())));
+			double a2 = (p3.getY() - p2.getY())/(p3.getX() - p2.getX());
+			double b2 = p3.getY() - a2 * p3.getX();
+			double yi = a2*p1.getX() + b2;
+			boolean isInY = (yi <= p0.getY() && yi >= p1.getY()) || (yi >= p0.getY() && yi <= p1.getY());
+			return (isInX && isInY);
 		}
 		else if ((p1.getX() != p0.getX()) && (p3.getX() == p2.getX())) {
-			 return (((p2.getX() <= p1.getX()) && (p2.getX() >= p0.getX())) || ((p2.getX() >= p1.getX()) && (p2.getX() <= p0.getX())));
+			boolean isInX = (((p2.getX() <= p1.getX()) && (p2.getX() >= p0.getX())) || ((p2.getX() >= p1.getX()) && (p2.getX() <= p0.getX())));
+			double a1 = (p1.getY() - p0.getY())/(p1.getX() - p0.getX());
+			double b1 = p1.getY() - a1 * p1.getX();
+			double yi = a1*p1.getX() + b1;
+			boolean isInY = (yi <= p2.getY() && yi >= p3.getY()) || (yi >= p2.getY() && yi <= p3.getY());
+			return (isInX && isInY);
 		}
 		else if ((p1.getX() == p0.getX()) && (p3.getX() == p2.getX())) {
-			return (p1.getX() == p3.getX());
+			if ((p0.getY() > p2.getY() && p0.getY() > p3.getY() && p1.getY() > p2.getY() && p1.getY() > p3.getY()) || 
+				(p0.getY() < p2.getY() && p0.getY() < p3.getY() && p1.getY() < p2.getY() && p1.getY() < p3.getY())) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 		else {
 			//a = dy/dx
