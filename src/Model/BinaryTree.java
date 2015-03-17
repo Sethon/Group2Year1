@@ -1,8 +1,6 @@
 package Model;
 
 
-
-
 public interface BinaryTree<E> {
 	public int size();
 	public boolean isEmpty();
