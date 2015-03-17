@@ -97,7 +97,6 @@ public class YStructure implements BinaryTree<Point2D>{
 			if (currNode.isRoot()) {
 				return null;
 			} else {
-				currNode = currNode.parent();
 				while (currNode.parent() != null) {
 					if ((currNode.parent()).leftChild() == currNode) {
 						return (currNode.parent()).element().edge();
@@ -117,8 +116,27 @@ public class YStructure implements BinaryTree<Point2D>{
 	
 	//predecessor - BELOW
 	public Edge predecessor(Point2D p) {
-
-		BinaryTreeNode<Point2D> pn = search(p, root);
+		BinaryTreeNode<Point2D> currNode = search(p, root);
+		if (currNode.leftChild() == null) {
+			if (currNode.isRoot()) {
+				return null;
+			} else {
+				while (currNode.parent() != null) {
+					if ((currNode.parent()).rightChild() == currNode) {
+						return (currNode.parent()).element().edge();
+					}
+					currNode = currNode.parent();
+				}
+				return null;
+			}
+		} else {
+			currNode = currNode.leftChild();
+			while (currNode.rightChild() != null) {
+				currNode = currNode.rightChild();
+			}
+			return currNode.element().edge();
+		}
+		/*BinaryTreeNode<Point2D> pn = search(p, root);
 		if (pn.leftChild() != null) {
 			return findMax(pn.leftChild()).edge();
 		}
@@ -130,7 +148,9 @@ public class YStructure implements BinaryTree<Point2D>{
 		}
 		if (predecessor == null) 
 			return null;
-		return predecessor.element().edge();
+		return predecessor.element().edge();*/
+		
+		
 	}
 
 	public boolean isInternal(BinaryTreeNode<Point2D> n) {
