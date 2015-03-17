@@ -30,6 +30,7 @@ public class Polyline2D implements Polyline<Point2D> {
 	}
 	
 	public void makeEdges() {
+		edges = new ArrayList<>();
 		for (int i = 0; i < vertices.size()-1; i++) {
 			edges.add(new Edge(vertices.get(i), vertices.get(i+1)));
 		}

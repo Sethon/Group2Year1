@@ -87,6 +87,5 @@ public class Helper {
 			}
 		}
 		return false;
-		
 	}
 }
