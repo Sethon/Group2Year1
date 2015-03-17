@@ -70,6 +70,46 @@ public class YStructure implements BinaryTree<Point2D>{
 		}
 	}
 
+	public Edge successor(Point2D p) {
+
+		BinaryTreeNode<Point2D> successor = null;
+		BinaryTreeNode<Point2D> pn = search(p, root);
+		if (pn.rightChild() != null) {
+			return findMin(pn.rightChild()).edge();
+		}
+		while (root != null) {
+			if (pn.element().getY() < root.element().getY()) {
+				successor = root;
+				root = root.leftChild();
+			} 
+			else if (pn.element().getY() > root.element().getY()) {
+				root = root.rightChild();
+			}
+			else
+				break;
+		}
+		if (successor == null) 
+			return null;
+		return successor.element().edge();
+	}
+
+	public Edge predecessor(Point2D p) {
+
+		BinaryTreeNode<Point2D> pn = search(p, root);
+		if (pn.leftChild() != null) {
+			return findMax(pn.leftChild()).edge();
+		}
+		BinaryTreeNode<Point2D> predecessor = pn.parent();
+		
+		while (predecessor != null && pn == predecessor.leftChild()) {
+			pn = predecessor;
+			predecessor = predecessor.parent();
+		}
+		if (predecessor == null) 
+			return null;
+		return predecessor.element().edge();
+	}
+
 	public boolean isInternal(BinaryTreeNode<Point2D> n) {
 		return n.isInternal();
 	}
@@ -80,6 +120,28 @@ public class YStructure implements BinaryTree<Point2D>{
 
 	public boolean isRoot(BinaryTreeNode<Point2D> n) {
 		return n.isRoot();
+	}
+	
+	public Point2D findMin(BinaryTreeNode<Point2D> currNode) {
+		if (isEmpty()) {
+			return null;
+		} else {
+			while (currNode.leftChild() != null) {
+				currNode = currNode.leftChild();
+			}
+			return currNode.element(); 
+		}
+	}
+	
+	public Point2D findMax(BinaryTreeNode<Point2D> currNode) {
+		if (isEmpty()) {
+			return null;
+		} else {
+			while (currNode.rightChild() != null) {
+				currNode = currNode.rightChild();
+			}
+			return currNode.element(); 
+		}
 	}
 
 	public void swapElements(BinaryTreeNode<Point2D> n, BinaryTreeNode<Point2D> m) {

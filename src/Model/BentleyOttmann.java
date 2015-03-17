@@ -42,45 +42,97 @@ public class BentleyOttmann {
 					yStructure = new YStructure(currentPoint);
 				else
 					yStructure.add(yRoot, currentPoint);  
-				Edge successor = yStructure.successor(currentEdge); 
-				Edge predecessor = yStructure.predecessor(currentEdge); 
+				Edge successor = yStructure.successor(currentPoint); 
+				Edge predecessor = yStructure.predecessor(currentPoint); 
 				if (successor != null) {
-					if ((intersection = checkIntersection(currentEdge, successor)) != null) 
+					if ((intersection = intersect(currentEdge, successor)) != null) 
 						xStructure.add(xStructure.root(), intersection);
 				}
 				if (predecessor != null) {
-					if ((intersection = checkIntersection(currentEdge, predecessor)) != null)
+					if ((intersection = intersect(currentEdge, predecessor)) != null)
 						xStructure.add(xStructure.root(), intersection);
 				}
-				if ((intersection = checkIntersection(successor, predecessor)) != null)
+				if ((intersection = intersect(successor, predecessor)) != null)
 					xStructure.remove(xStructure.root(), intersection); 
 				
 			} else if (currentEdge != null && currentEdge.isRight(currentPoint)) { 
 				Edge successor = yStructure.successor(currentPoint); 
 				Edge predecessor = yStructure.predecessor(currentPoint); 
 				yStructure.remove(yRoot, currentPoint); 
-				checkIntersection(successor, predecessor); 
+				intersect(successor, predecessor); 
 				
 			} else { 
 				intersections.add(currentPoint); 
 				Edge top = currentPoint.top();
 				Edge bottom = currentPoint.bottom(); 
-				Edge topTop = yStructure.successor(top); 
-				Edge bottomBottom = yStructure.predecessor(bottom); 
+				Edge topTop = yStructure.successor(currentPoint); 
+				Edge bottomBottom = yStructure.predecessor(currentPoint); 
 				yStructure.remove(yRoot, top.left());
 				yStructure.remove(yRoot, bottom.left());
 				yStructure.add(yRoot, top.right());
 				yStructure.add(yRoot, bottom.right());
-				if ((intersection = checkIntersection(top, topTop)) != null)
+				if ((intersection = intersect(top, topTop)) != null)
 					xStructure.remove(xStructure.root(), intersection); 
-				if ((intersection = checkIntersection(bottom, topTop)) != null)
+				if ((intersection = intersect(bottom, topTop)) != null)
 					xStructure.add(xStructure.root(), intersection); 
-				if ((intersection = checkIntersection(top, bottomBottom)) != null)
-					xStructure.add(xStructure.root, intersection);
-				if ((intersection = checkIntersection(bottom, bottomBottom)) != null)
+				if ((intersection = intersect(top, bottomBottom)) != null)
+					xStructure.add(xStructure.root(), intersection);
+				if ((intersection = intersect(bottom, bottomBottom)) != null)
 					xStructure.remove(xStructure.root(), intersection);
 			}
 		}
 		return intersections;
+	}
+	
+	public Point2D intersect(Edge edge1, Edge edge2) {
+		if (edge1 == null || edge2 == null){
+			return null;
+		}
+
+		Point2D p0 = edge1.left();
+		Point2D p1 = edge1.right();
+		Point2D p2 = edge2.left();
+		Point2D p3 = edge2.right();
+		
+		//one of segments or both are vertical
+		
+		if ((p1.getX() == p0.getX()) && (p3.getX() != p2.getX())) {
+			return null;	
+		}
+		else if ((p1.getX() != p0.getX()) && (p3.getX() == p2.getX())) {
+			return null;
+		}
+		else if ((p1.getX() == p0.getX()) && (p3.getX() == p2.getX())) {
+			return null;
+		}
+		else {
+			//a = dy/dx
+			double a1 = (p1.getY() - p0.getY())/(p1.getX() - p0.getX());
+			double a2 = (p3.getY() - p2.getY())/(p3.getX() - p2.getX());
+			double b1 = p1.getY() - a1 * p1.getX();
+			double b2 = p3.getY() - a2 * p3.getX();
+			
+			//segments are parallel
+			if (((a1 - a2) == 0) ^ ((b2 - b1) == 0)) {
+				return null;
+			}
+			//segments have a common segment 
+			else if (((a1 - a2) == 0) && ((b2 - b1) == 0)) {
+				return null;
+			} else {
+				double xi = (b2 - b1)/(a1 - a2);
+				boolean isInX1 = (((xi <= p1.getX()) && (xi >= p0.getX())) || ((xi >= p1.getX()) && (xi <= p0.getX())));
+				boolean isInX2 = (((xi <= p3.getX()) && (xi >= p2.getX())) || ((xi >= p3.getX()) && (xi <= p2.getX())));
+				if (isInX1 && isInX2) {
+					double yi = (a2*xi)+b2;
+					if (a1 >= 0 && a2 <= 0) {
+						return new Point2D(xi, yi, edge1, edge2);
+					} else {
+						return new Point2D(xi, yi, edge2, edge1);
+					}
+				}
+			}
+		}
+		return null;
 	}
 }
