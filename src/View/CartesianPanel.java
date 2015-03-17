@@ -105,7 +105,7 @@ public class CartesianPanel extends JPanel {
 	
 	private JButton polyButton(int x){
 		JButton polyButton = new JButton("Info");
-		polyButton.setName(x+"");
+		polyButton.setName("" + x);
 		polyButton.addActionListener(new InfoButtonListener());
 		return polyButton;
 	}
@@ -128,6 +128,7 @@ public class CartesianPanel extends JPanel {
 			p.setName("" + x);
 			polyPanel.add(p);
 			polyPanel.revalidate();
+			polyPanel.invalidate();
 		}	
 	}
 	
@@ -226,22 +227,22 @@ public class CartesianPanel extends JPanel {
 	}
 	
 	private void drawPolyline(Polyline2D pl, Graphics2D g2) {
-		if (pl.getVertices().size() == 1) {
-			g2.fillRect((int) Math.round(pl.getVertices().get(0).getCoordinates()[0]*scale + x0 - scale/4),
-					(int) Math.round(-pl.getVertices().get(0).getCoordinates()[1]*scale + y0 - scale/4), 
+		if (pl.vertices().size() == 1) {
+			g2.fillRect((int) Math.round(pl.vertices().get(0).coordinates()[0]*scale + x0 - scale/4),
+					(int) Math.round(-pl.vertices().get(0).coordinates()[1]*scale + y0 - scale/4), 
 					(int) (scale/2), (int) (scale/2));
 		} else {
-			for (int i = 0; i < pl.getVertices().size() - 1; i++) {
-				g2.drawLine((int) (x0 + pl.getVertices().get(i).getCoordinates()[0]*scale),
-				(int) (y0 - pl.getVertices().get(i).getCoordinates()[1]*scale),
-				(int) (pl.getVertices().get(i + 1).getCoordinates()[0]*scale + x0),
-				(int) (-pl.getVertices().get(i + 1).getCoordinates()[1]*scale + y0));
+			for (int i = 0; i < pl.vertices().size() - 1; i++) {
+				g2.drawLine((int) (x0 + pl.vertices().get(i).coordinates()[0]*scale),
+				(int) (y0 - pl.vertices().get(i).coordinates()[1]*scale),
+				(int) (pl.vertices().get(i + 1).coordinates()[0]*scale + x0),
+				(int) (-pl.vertices().get(i + 1).coordinates()[1]*scale + y0));
 				
-				g2.fillRect((int) Math.round(pl.getVertices().get(i).getCoordinates()[0]*scale + x0 - scale/4),
-				(int) Math.round(-pl.getVertices().get(i).getCoordinates()[1]*scale + y0 - scale/4), 
+				g2.fillRect((int) Math.round(pl.vertices().get(i).coordinates()[0]*scale + x0 - scale/4),
+				(int) Math.round(-pl.vertices().get(i).coordinates()[1]*scale + y0 - scale/4), 
 				(int) (scale/2), (int) (scale/2));
-				g2.fillRect((int) Math.round(pl.getVertices().get(i + 1).getCoordinates()[0]*scale + x0 - scale/4),
-				(int) Math.round(-pl.getVertices().get(i + 1).getCoordinates()[1]*scale + y0 - scale/4), 
+				g2.fillRect((int) Math.round(pl.vertices().get(i + 1).coordinates()[0]*scale + x0 - scale/4),
+				(int) Math.round(-pl.vertices().get(i + 1).coordinates()[1]*scale + y0 - scale/4), 
 				(int) (scale/2), (int) (scale/2));
 			}
 		}
@@ -321,12 +322,13 @@ public class CartesianPanel extends JPanel {
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_C) {
 				clear();
+				updatePanel();
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				modificationMode = false;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_S) {
-				if (modificationMode && lines.get(lines.size() - 1).getVertices().size() > 1) {
+				if (modificationMode && lines.get(lines.size() - 1).vertices().size() > 1) {
 					lines.get(lines.size() - 1).addPoint(lines.get(lines.size() - 1).getVertex(0));
 					modificationMode = false;
 					updatePanel();
