@@ -28,6 +28,7 @@ import javax.swing.border.TitledBorder;
 import Model.Point2D;
 import Model.Polyline;
 import Model.Polyline2D;
+import java.awt.Toolkit;
 
 /**
  * @author Bastian Bertram
@@ -65,6 +66,10 @@ public class MainFrame {
 	
         frame.setTitle("Flatland 1.0");
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int maxXSize = (int)screenSize.getWidth();
+		int maxYSize = (int)screenSize.getHeight();
+        frame.setPreferredSize(screenSize);
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
