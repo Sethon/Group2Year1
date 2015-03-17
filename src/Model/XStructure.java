@@ -23,6 +23,20 @@ public class XStructure implements BinaryTree<Point2D>{
 		return root;
 	}
 	
+	public Point2D removeMin() {
+		if (isEmpty()) {
+			return null;
+		} else {
+			BinaryTreeNode<Point2D> currNode = root;
+			while (currNode.leftChild() != null) {
+				currNode = currNode.leftChild();
+			}
+			Point2D el = currNode.element(); 
+			remove(root, el);
+			return el;
+		}
+	}
+	
 	public void add(Point2D e, BinaryTreeNode<Point2D> n) {
 		if (e.getX() >= n.element().getX() && n.rightChild() == null) {
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
