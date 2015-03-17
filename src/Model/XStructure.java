@@ -1,14 +1,16 @@
 package Model;
 
+
+
 import java.util.ArrayList;
 
 
 
-public class BinarySearchTree implements BinaryTree<Point2D>{
+public class XStructure implements BinaryTree<Point2D>{
 	private BinaryTreeNode<Point2D> 	root;
 	private int 						size;
 	
-	public BinarySearchTree(Point2D p) {
+	public XStructure(Point2D p) {
 		root = new BinaryTreeNode<Point2D>(p);
 		size = 1;
 	}

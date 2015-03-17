@@ -33,24 +33,23 @@ public class BentleyOttmann {
 		
 		while (!xStructure.isEmpty()) {
 		
-			Point2D min = xStructure.getMin();
-			xStructure.removeMin();
+			Point2D min = xStructure.removeMin();
+			Edge current = min.getEdge();
 			
-			if (min.isLeft()) {  //the leftmost active point is the beginning of a line segment
-				Edge x = min.edge(); //this segment is now an active segment
-				Edge y = yStructure.getSuccessor(x); //if x has a neighboring segment above itself save it in y
-				Edge z = yStructure.getPredecessor(x); //if x has a neighboring segment below itself save it in z
-				yStructure.add(x);  
+			if (current.isLeft(min)) {  //the leftmost active point is the beginning of a line segment
+				yStructure.add(current);  
+				Edge y = yStructure.getSuccessor(current); //if x has a neighboring segment above itself save it in y
+				Edge z = yStructure.getPredecessor(current); //if x has a neighboring segment below itself save it in z
 				if (y != null)
 					checkIntersect(x,y); //if above exists a segment, add their intersection to xStructure (if it exists)
 				if (z != null)
 					checkIntersect(x,z); //if below exists a segment, add their intersection to xStructure (if it exists)
 				(removeIntersect(y,z); //if y and z intersect, remove intersection from 
 				
-			} else if (min.isRight()) { //the leftmost active point is the end of a line segment 
-				Edge y = yStructure.getSuccessor(x); //if x has a neighboring segment above itself save it in y
-				Edge z = yStructure.getPredecessor(x); //if x has a neighboring segment below itself save it in z
-				yStructure.removeEdge(min); //remove segment of endpoint min
+			} else if (current.isLeft(min)) { //the leftmost active point is the end of a line segment 
+				Edge y = yStructure.getSuccessor(current); //if x has a neighboring segment above itself save it in y
+				Edge z = yStructure.getPredecessor(current); //if x has a neighboring segment below itself save it in z
+				yStructure.removeEdge(current); //remove segment of endpoint min
 				checkIntersect(y,z); //if neighbors intersect add point to xStructure
 				
 			} else { //min is an intersection
@@ -68,5 +67,4 @@ public class BentleyOttmann {
 		}
 		return intersections;
 	}
-	
 }
