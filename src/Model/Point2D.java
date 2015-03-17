@@ -2,7 +2,7 @@ package Model;
 
 
 
-public class Point2D implements Point {
+public class Point2D implements Point, Comparable<Object> {
 	private double[] coordinates;
 	
 	public Point2D(double x, double y) {
@@ -27,5 +27,22 @@ public class Point2D implements Point {
 	
 	public String toString() {
 		return "[" + coordinates[0] + ", " + coordinates[1] + "]";
+	}
+	
+	public boolean equals(Object o) {
+		Point2D p2d = (Point2D) o;
+		return (p2d.getX() == getX()) && (p2d.getY() == getY());
+	}
+	
+	public int compareTo(Object o) {
+		Point2D p2d = (Point2D) o;
+		if (getX() > p2d.getX()) {
+			return 1;
+		}
+		else if (this.equals(p2d)) {
+			return 0;
+		} else {
+			return -1;
+		}
 	}
 }
