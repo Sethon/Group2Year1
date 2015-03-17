@@ -1,10 +1,6 @@
 package Model;
 
-
-
 import java.util.ArrayList;
-
-
 
 public class XStructure implements BinaryTree<Point2D>{
 	private BinaryTreeNode<Point2D> 	root;
@@ -28,7 +24,7 @@ public class XStructure implements BinaryTree<Point2D>{
 	}
 	
 	public void add(Point2D e, BinaryTreeNode<Point2D> n) {
-		if (e.getX() >= n.getElement().getX() && n.getRightChild() == null) {
+		if (e.getX() >= n.element().getX() && n.rightChild() == null) {
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
 			n.setRightChild(n1);
 			n1.setParent(n);
@@ -37,7 +33,7 @@ public class XStructure implements BinaryTree<Point2D>{
 				balanceAfterAdd(n1);
 			}
 		} 
-		else if (e.getX() < n.getElement().getX() && n.getLeftChild() == null) { 
+		else if (e.getX() < n.element().getX() && n.leftChild() == null) { 
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
 			n.setLeftChild(n1);
 			n1.setParent(n);
@@ -46,27 +42,27 @@ public class XStructure implements BinaryTree<Point2D>{
 				balanceAfterAdd(n1);
 			}
 		}
-		else if (e.getX() >= n.getElement().getX() && n.getRightChild() != null) {
-			add(e, n.getRightChild());
+		else if (e.getX() >= n.element().getX() && n.rightChild() != null) {
+			add(e, n.rightChild());
 		}
-		else if (e.getX() < n.getElement().getX() && n.getLeftChild() != null) { 
-			add(e, n.getLeftChild());
+		else if (e.getX() < n.element().getX() && n.leftChild() != null) { 
+			add(e, n.leftChild());
 		}
 	}
 	
 	public BinaryTreeNode<Point2D> parent(BinaryTreeNode<Point2D> n) {
-		return n.getParent();
+		return n.parent();
 	}
 	
 	public BinaryTreeNode<Point2D> search(Point2D e, BinaryTreeNode<Point2D> n) {
 		if (n != null) {
-			if (e.getX() == n.getElement().getX() && e.getY() == n.getElement().getY()) {
+			if (e.getX() == n.element().getX() && e.getY() == n.element().getY()) {
 				return n;
 			} else {
-				if (e.getX() >= n.getElement().getX()) {
-					return search(e, n.getRightChild());
+				if (e.getX() >= n.element().getX()) {
+					return search(e, n.rightChild());
 				} else {
-					return search(e, n.getLeftChild());
+					return search(e, n.leftChild());
 				}
 			}
 		} else {
@@ -87,8 +83,8 @@ public class XStructure implements BinaryTree<Point2D>{
 	}
 
 	public void swapElements(BinaryTreeNode<Point2D> n, BinaryTreeNode<Point2D> m) {
-		Point2D tmp = n.getElement();
-		n.setElement(m.getElement());
+		Point2D tmp = n.element();
+		n.setElement(m.element());
 		m.setElement(tmp);
 	}
 	
@@ -98,7 +94,7 @@ public class XStructure implements BinaryTree<Point2D>{
 				return true;
 			} else {
 				if(n.isBalanced()) {
-					return (isBalanced(n.getLeftChild()) && isBalanced(n.getRightChild()));
+					return (isBalanced(n.leftChild()) && isBalanced(n.rightChild()));
 				} else {
 					return false;
 				}
@@ -109,28 +105,28 @@ public class XStructure implements BinaryTree<Point2D>{
 	}
 	
 	private void balanceAfterAdd(BinaryTreeNode<Point2D> n) {
-		BinaryTreeNode<Point2D> z = n.getParent();
+		BinaryTreeNode<Point2D> z = n.parent();
 		ArrayList<BinaryTreeNode<Point2D>> mark = new ArrayList<BinaryTreeNode<Point2D>>();
 		mark.add(n);
 		
 		while (z.isBalanced()) {
 			mark.add(z);
-			z = z.getParent();
+			z = z.parent();
 		}
 		BinaryTreeNode<Point2D> y = mark.get(mark.size() - 1);
 		BinaryTreeNode<Point2D> x = mark.get(mark.size() - 2);
 		
-		if (y == z.getLeftChild() && x == y.getLeftChild()) {
+		if (y == z.leftChild() && x == y.leftChild()) {
 			rotateRight(y);
 		}
-		else if (y == z.getLeftChild() && x == y.getRightChild()) {
+		else if (y == z.leftChild() && x == y.rightChild()) {
 			rotateLeft(x);
 			rotateRight(x);
 		}
-		else if (y == z.getRightChild() && x == y.getRightChild()) {
+		else if (y == z.rightChild() && x == y.rightChild()) {
 			rotateLeft(y);
 		}
-		else if (y == z.getRightChild() && x == y.getLeftChild()) {
+		else if (y == z.rightChild() && x == y.leftChild()) {
 			rotateRight(x);
 			rotateLeft(x);
 		}
@@ -140,113 +136,113 @@ public class XStructure implements BinaryTree<Point2D>{
 		BinaryTreeNode<Point2D> z = n;
 		
 		while (z.isBalanced()) {
-			z = z.getParent();
+			z = z.parent();
 		}
 		BinaryTreeNode<Point2D> y;
-		if (z.getLeftChild() != null && z.getRightChild() != null) {
-			if (z.getLeftChild().getHeight() >= z.getRightChild().getHeight()) {
-				y = z.getLeftChild();
+		if (z.leftChild() != null && z.rightChild() != null) {
+			if (z.leftChild().height() >= z.rightChild().height()) {
+				y = z.leftChild();
 			} else {
-				y = z.getRightChild();
+				y = z.rightChild();
 			}
 		}
-		else if (z.getLeftChild() == null && z.getRightChild() != null) {
-			y = z.getRightChild();
+		else if (z.leftChild() == null && z.rightChild() != null) {
+			y = z.rightChild();
 		} 
 		else {
-			y = z.getLeftChild();
+			y = z.leftChild();
 		}
 		
 		BinaryTreeNode<Point2D> x;
-		if (y.getLeftChild() != null && y.getRightChild() != null) {
-			if (y.getLeftChild().getHeight() >= y.getRightChild().getHeight()) {
-				x = y.getLeftChild();
+		if (y.leftChild() != null && y.rightChild() != null) {
+			if (y.leftChild().height() >= y.rightChild().height()) {
+				x = y.leftChild();
 			} else {
-				x = y.getRightChild();
+				x = y.rightChild();
 			}
 		}
-		else if (y.getLeftChild() == null && y.getRightChild() != null) {
-			x = y.getRightChild();
+		else if (y.leftChild() == null && y.rightChild() != null) {
+			x = y.rightChild();
 		} 
 		else {
-			x = y.getLeftChild();
+			x = y.leftChild();
 		}
 		
-		if (y == z.getLeftChild() && x == y.getLeftChild()) {
+		if (y == z.leftChild() && x == y.leftChild()) {
 			rotateRight(y);
 		}
-		else if (y == z.getLeftChild() && x == y.getRightChild()) {
+		else if (y == z.leftChild() && x == y.rightChild()) {
 			rotateLeft(x);
 			rotateRight(x);
 		}
-		else if (y == z.getRightChild() && x == y.getRightChild()) {
+		else if (y == z.rightChild() && x == y.rightChild()) {
 			rotateLeft(y);
 		}
-		else if (y == z.getRightChild() && x == y.getLeftChild()) {
+		else if (y == z.rightChild() && x == y.leftChild()) {
 			rotateRight(x);
 			rotateLeft(x);
 		}
 		if (!(isBalanced(root))) {
-			balanceAfterRemove(z.getParent());
+			balanceAfterRemove(z.parent());
 		}
 	}
 	
 	private void rotateRight(BinaryTreeNode<Point2D> n){ 
-		if ((n.getParent()).isRoot()) {                   
-			BinaryTreeNode<Point2D> tmp = n.getRightChild();
-			n.setRightChild(n.getParent());
-			(n.getParent()).setParent(n);
-			(n.getParent()).setLeftChild(tmp);
+		if ((n.parent()).isRoot()) {                   
+			BinaryTreeNode<Point2D> tmp = n.rightChild();
+			n.setRightChild(n.parent());
+			(n.parent()).setParent(n);
+			(n.parent()).setLeftChild(tmp);
 			if (tmp != null) {
-				tmp.setParent(n.getParent());
+				tmp.setParent(n.parent());
 			}
 			n.setParent(null);
 			root = n;
 		}
 		else {
-			BinaryTreeNode<Point2D> tmp = n.getRightChild();
-			n.setRightChild(n.getParent());
-			(n.getParent()).setLeftChild(tmp);
+			BinaryTreeNode<Point2D> tmp = n.rightChild();
+			n.setRightChild(n.parent());
+			(n.parent()).setLeftChild(tmp);
 			if (tmp != null) {
-				tmp.setParent(n.getParent());
+				tmp.setParent(n.parent());
 			}
-			if(((n.getParent()).getParent()).getLeftChild() == n.getParent()) {    //Parent of parent (soon to be parent of n) needs n as left child
-				((n.getParent()).getParent()).setLeftChild(n);
+			if(((n.parent()).parent()).leftChild() == n.parent()) {    //Parent of parent (soon to be parent of n) needs n as left child
+				((n.parent()).parent()).setLeftChild(n);
 			} else {														 //Parent of parent (soon to be parent of n) needs n as right child
-				((n.getParent()).getParent()).setRightChild(n);
+				((n.parent()).parent()).setRightChild(n);
 			}
-			BinaryTreeNode<Point2D> tmp2 = n.getParent();
-			n.setParent((n.getParent()).getParent());
+			BinaryTreeNode<Point2D> tmp2 = n.parent();
+			n.setParent((n.parent()).parent());
 			tmp2.setParent(n);
 		}
 	}
 	
 	private void rotateLeft(BinaryTreeNode<Point2D> n) {   //Rotate the chosen node to the the right
-		if((n.getParent()).isRoot()) {                   //Check if the parent is the root
-			BinaryTreeNode<Point2D> tmp = n.getLeftChild();
-			n.setLeftChild(n.getParent());
-			(n.getParent()).setParent(n);
-			(n.getParent()).setRightChild(tmp);
+		if((n.parent()).isRoot()) {                   //Check if the parent is the root
+			BinaryTreeNode<Point2D> tmp = n.leftChild();
+			n.setLeftChild(n.parent());
+			(n.parent()).setParent(n);
+			(n.parent()).setRightChild(tmp);
 			if (tmp != null) {
-				tmp.setParent(n.getParent());
+				tmp.setParent(n.parent());
 			}
 			n.setParent(null);
 			root = n;
 		}
 		else {
-			BinaryTreeNode<Point2D> tmp = n.getLeftChild();
-			n.setLeftChild(n.getParent());
-			(n.getParent()).setRightChild(tmp);
+			BinaryTreeNode<Point2D> tmp = n.leftChild();
+			n.setLeftChild(n.parent());
+			(n.parent()).setRightChild(tmp);
 			if (tmp != null) {
-				tmp.setParent(n.getParent());
+				tmp.setParent(n.parent());
 			}
-			if(((n.getParent()).getParent()).getRightChild() == n.getParent()) {    //Parent of parent (soon to be parent of n) needs n as left child
-				((n.getParent()).getParent()).setRightChild(n);
+			if(((n.parent()).parent()).rightChild() == n.parent()) {    //Parent of parent (soon to be parent of n) needs n as left child
+				((n.parent()).parent()).setRightChild(n);
 			} else {														 //Parent of parent (soon to be parent of n) needs n as right child
-				((n.getParent()).getParent()).setLeftChild(n);
+				((n.parent()).parent()).setLeftChild(n);
 			}
-			BinaryTreeNode<Point2D> tmp2 = n.getParent();
-			n.setParent((n.getParent()).getParent());
+			BinaryTreeNode<Point2D> tmp2 = n.parent();
+			n.setParent((n.parent()).parent());
 			tmp2.setParent(n);
 		}
 		
@@ -260,81 +256,81 @@ public class XStructure implements BinaryTree<Point2D>{
 			if (m == null) {
 				return null;
 			}
-			Point2D element = m.getElement();
+			Point2D element = m.element();
 			if(size == 1) {
 				root = null;
 				size--;
 				return element;
 			}
-			BinaryTreeNode<Point2D> actionNode = m.getParent();
+			BinaryTreeNode<Point2D> actionNode = m.parent();
 			
 			if (m.isExternal()) {
-				if((m.getParent()).getLeftChild() == m) {
-					(m.getParent()).setLeftChild(null);
+				if((m.parent()).leftChild() == m) {
+					(m.parent()).setLeftChild(null);
 				} else {
-					(m.getParent()).setRightChild(null);
+					(m.parent()).setRightChild(null);
 				}
 			}
-			else if (m.getRightChild() != null && m.getLeftChild() == null) {
+			else if (m.rightChild() != null && m.leftChild() == null) {
 				if (!(m.isRoot())) {
-					if((m.getParent()).getLeftChild() == m) {
-						(m.getParent()).setLeftChild(m.getRightChild());
-						(m.getRightChild()).setParent(m.getParent());
+					if((m.parent()).leftChild() == m) {
+						(m.parent()).setLeftChild(m.rightChild());
+						(m.rightChild()).setParent(m.parent());
 					} else {
-						(m.getParent()).setRightChild(m.getRightChild());
-						(m.getRightChild()).setParent(m.getParent());
+						(m.parent()).setRightChild(m.rightChild());
+						(m.rightChild()).setParent(m.parent());
 					}
 				} else {
-					(m.getRightChild()).setParent(null);
-					root = m.getRightChild();
+					(m.rightChild()).setParent(null);
+					root = m.rightChild();
 				}
 			}
-			else if (m.getRightChild() == null && m.getLeftChild() != null) {
+			else if (m.rightChild() == null && m.leftChild() != null) {
 				if (!(m.isRoot())) {
-					if((m.getParent()).getLeftChild() == m) {
-						(m.getParent()).setLeftChild(m.getLeftChild());
-						(m.getLeftChild()).setParent(m.getParent());
+					if((m.parent()).leftChild() == m) {
+						(m.parent()).setLeftChild(m.leftChild());
+						(m.leftChild()).setParent(m.parent());
 					} else {
-						(m.getParent()).setRightChild(m.getLeftChild());
-						(m.getLeftChild()).setParent(m.getParent());
+						(m.parent()).setRightChild(m.leftChild());
+						(m.leftChild()).setParent(m.parent());
 					}
 				} else {
-					(m.getLeftChild()).setParent(null);
-					root = m.getLeftChild();
+					(m.leftChild()).setParent(null);
+					root = m.leftChild();
 				}
 			}
 			
-			else if (m.getRightChild() != null && m.getLeftChild() != null) {
-				BinaryTreeNode<Point2D> s = m.getRightChild();
-				if (s.getLeftChild() == null) {
-					s.setLeftChild(m.getLeftChild());
-					(m.getLeftChild()).setParent(s);
+			else if (m.rightChild() != null && m.leftChild() != null) {
+				BinaryTreeNode<Point2D> s = m.rightChild();
+				if (s.leftChild() == null) {
+					s.setLeftChild(m.leftChild());
+					(m.leftChild()).setParent(s);
 					if(!(m.isRoot())) {
-						s.setParent(m.getParent());
-						if((m.getParent()).getLeftChild() == m) {
-							(m.getParent()).setLeftChild(s);
+						s.setParent(m.parent());
+						if((m.parent()).leftChild() == m) {
+							(m.parent()).setLeftChild(s);
 						} else {
-							(m.getParent()).setRightChild(s);
+							(m.parent()).setRightChild(s);
 						}
 					} else {
 						s.setParent(null);
 						root = s;
 					}
 				} else {
-					while (s.getLeftChild() != null) {
-						s = s.getLeftChild();
+					while (s.leftChild() != null) {
+						s = s.leftChild();
 					}
-					s.setLeftChild(m.getLeftChild());
-					(m.getLeftChild()).setParent(s);
-					s.setRightChild(m.getLeftChild());
-					(m.getRightChild()).setParent(s);
-					(s.getParent()).setLeftChild(null);
+					s.setLeftChild(m.leftChild());
+					(m.leftChild()).setParent(s);
+					s.setRightChild(m.leftChild());
+					(m.rightChild()).setParent(s);
+					(s.parent()).setLeftChild(null);
 					if(!(m.isRoot())) {
-						s.setParent(m.getParent());
-						if((m.getParent()).getLeftChild() == m) {
-							(m.getParent()).setLeftChild(s);
+						s.setParent(m.parent());
+						if((m.parent()).leftChild() == m) {
+							(m.parent()).setLeftChild(s);
 						} else {
-							(m.getParent()).setRightChild(s);
+							(m.parent()).setRightChild(s);
 						}
 					} else {
 						s.setParent(null);

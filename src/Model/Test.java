@@ -64,11 +64,11 @@ public class Test {
 	public static <E> void inOrder(BinaryTreeNode<E> v) {
 		if (v != null) {
 			if (v.isInternal()) {
-				inOrder(v.getLeftChild());
+				inOrder(v.leftChild());
 			}
-			System.out.print(v.getElement() + " ");
+			System.out.print(v.element() + " ");
 			if (v.isInternal()) {
-				inOrder(v.getRightChild());
+				inOrder(v.rightChild());
 			}
 		}
 	}

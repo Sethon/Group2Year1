@@ -21,7 +21,7 @@ public class Point2D implements Point, Comparable<Object> {
 		coordinates[0] = Math.pow(-1,Math.round(Math.random())) * (RANGE * Math.random());
 		coordinates[1] = Math.pow(-1,Math.round(Math.random())) * (RANGE * Math.random());
 	}
-	public double[] getCoordinates() {
+	public double[] coordinates() {
 		return coordinates;
 	}
 	public double getX() {
@@ -39,7 +39,7 @@ public class Point2D implements Point, Comparable<Object> {
 		edge = e;
 	}
 	
-	public Edge getEdge() {
+	public Edge edge() {
 		return edge;
 	}
 	public boolean equals(Object o) {
