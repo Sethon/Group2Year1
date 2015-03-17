@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class YStructure implements BinaryTree<Point2D>{
 	private BinaryTreeNode<Point2D> 	root;
-	private int 						size;
+	private int 					size;
 	
 	public YStructure(Point2D p) {
 		root = new BinaryTreeNode<Point2D>(p);
