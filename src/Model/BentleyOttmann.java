@@ -32,37 +32,41 @@ public class BentleyOttmann {
 		ArrayList<Point2D> intersections = new ArrayList<>();
 		
 		while (!xStructure.isEmpty()) {
-		
-			Point2D min = xStructure.removeMin();
-			Edge current = min.edge();
 			
-			if (current.isLeft(min)) {  //the leftmost active point is the beginning of a line segment
-				yStructure.add(current);  
-				Edge y = yStructure.getSuccessor(current); //if x has a neighboring segment above itself save it in y
-				Edge z = yStructure.getPredecessor(current); //if x has a neighboring segment below itself save it in z
-				if (y != null)
-					checkIntersect(x,y); //if above exists a segment, add their intersection to xStructure (if it exists)
-				if (z != null)
-					checkIntersect(x,z); //if below exists a segment, add their intersection to xStructure (if it exists)
-				(removeIntersect(y,z); //if y and z intersect, remove intersection from 
+			BinaryTreeNode yRoot = yStructure.root();
+			Point2D currentPoint = xStructure.removeMin();
+			Edge currentEdge = min.edge();
+			
+			if (currentEdge.isLeft(currentPoint)) {  //the leftmost active point is the beginning of a line segment
+				yStructure.add(currentPoint);  
+				Edge successor = yStructure.successor(currentEdge); //if x has a neighboring segment above itself save it in y
+				Edge predecessor = yStructure.predecessor(currentEdge); //if x has a neighboring segment below itself save it in z
+				if (successor != null)
+					xStructure.add(checkIntersection(x,successor)); //if above exists a segment, add their intersection to xStructure (if it exists)
+				if (predecessor != null)
+					checkIntersection(x,predecessor); //if below exists a segment, add their intersection to xStructure (if it exists)
+				removeIntersection(successor,predecessor); //if successor and predecessor intersect, remove intersection from xStructure
 				
-			} else if (current.isRight(min)) { //the leftmost active point is the end of a line segment 
-				Edge y = yStructure.getSuccessor(current); //if x has a neighboring segment above itself save it in y
-				Edge z = yStructure.getPredecessor(current); //if x has a neighboring segment below itself save it in z
-				yStructure.removeEdge(current); //remove segment of endpoint min
-				checkIntersect(y,z); //if neighbors intersect add point to xStructure
+			} else if (currentEdge.isRight(currentPoint)) { //the leftmost active point is the end of a line segment 
+				Edge successor = yStructure.successor(currentPoint); //if x has a neighboring segment above itself save it in successor
+				Edge predecessor = yStructure.predecessor(currentPoint); //if x has a neighboring segment below itself save it in predecessor
+				yStructure.remove(yRoot, currentPoint); //remove segment of endpoint currentPoint
+				checkIntersection(successor,predecessor); //if neighbors intersect add point to xStructure
 				
-			} else { //min is an intersection
-				intersections.add(min); //an intersection was found, store it
-				Edge u = yStructure.getSegmentAbove(min); //get segment that is on top in the yStructure
-				Edge v = yStructure.getSegmentBelow(min); //get segment that is lower in the yStructure
-				Edge y = yStructure.getSuccessor(u); //if u has a neighboring segment above itself save it in y
-				Edge z = yStructure.getPredecessor(v); //if v has a neighboring segment below itself save it in z
-				yStructure.swapElements(u, v); //swap u and v (they intersect and therefore change order according to Y
-				checkIntersect(u,z); //check if u intersects with z and add to xStructure
-				checkIntersect(v,y); //check if v intersects with y and add to xStructure
-				removeIntersect(u,y); //remove intersection between u and y if it exists
-				removeIntersect(v,z); //remove intersection between v and z if it exists
+			} else { //currentPoint is an intersection
+				intersections.add(currentPoint); //an intersection was found, store it
+				Edge top = currentPoint.top(); //get segment that is on top in the yStructure
+				Edge bottom = currentPoint.bottom(); //get segment that is lower in the yStructure
+				Edge topTop = yStructure.successor(top); //if u has a neighboring segment above itself save it in successor
+				Edge bottomBottom = yStructure.predecessor(bottom); //if v has a neighboring segment below itself save it in predecessor
+				yStructure.remove(yRoot, top.left()); //swap u and v (they intersect and therefore change order according to Y
+				yStructure.remove(yRoot, bottom.left());
+				yStructure.add(yRoot, top.right());
+				yStructure.add(yRoot, bottom.right());
+				checkIntersection(u,predecessor); //check if u intersects with predecessor and add to xStructure
+				checkIntersection(v,successor); //check if v intersects with successor and add to xStructure
+				removeIntersection(u,successor); //remove intersection between u and successor if it exists
+				removeIntersection(v,predecessor); //remove intersection between v and predecessor if it exists
 			}
 		}
 		return intersections;

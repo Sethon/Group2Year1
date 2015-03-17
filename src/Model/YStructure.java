@@ -23,7 +23,7 @@ public class YStructure implements BinaryTree<Point2D>{
 		return root;
 	}
 	
-	public void add(Point2D e, BinaryTreeNode<Point2D> n) {
+	public void add(BinaryTreeNode<Point2D> n, Point2D e) {
 		if (e.getY() >= n.element().getY() && n.rightChild() == null) {
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
 			n.setRightChild(n1);
@@ -43,10 +43,10 @@ public class YStructure implements BinaryTree<Point2D>{
 			}
 		}
 		else if (e.getY() >= n.element().getY() && n.rightChild() != null) {
-			add(e, n.rightChild());
+			add(n.rightChild(), e);
 		}
 		else if (e.getY() < n.element().getY() && n.leftChild() != null) { 
-			add(e, n.leftChild());
+			add(n.leftChild(), e);
 		}
 	}
 	
