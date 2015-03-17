@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class BentleyOttmann {
 
-	private BinarySearchTree yStructure;
-	private BinarySearchTree xStructure;
+	private YStructure yStructure;
+	private XStructure xStructure;
 	private Polyline2D[] lines;
 	private Polyline2D line;
 	private ArrayList<Edge> edges;
@@ -22,8 +22,8 @@ public class BentleyOttmann {
 		edges.addAll(pl2.edges());
 		Helper.sortByX(vertices);
 		//Helper.removeDuplicatePoints(vertices);
-		yStructure = new yStructure();
-		xStructure = new xStructure();
+		yStructure = new YStructure();
+		xStructure = new XStructure();
 		//xStructure.add(vertices);
 	}
 	
