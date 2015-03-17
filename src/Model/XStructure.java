@@ -37,7 +37,7 @@ public class XStructure implements BinaryTree<Point2D>{
 		}
 	}
 	
-	public void add(Point2D e, BinaryTreeNode<Point2D> n) {
+	public void add(BinaryTreeNode<Point2D> n, Point2D e) {
 		if (e.getX() >= n.element().getX() && n.rightChild() == null) {
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
 			n.setRightChild(n1);
@@ -57,10 +57,10 @@ public class XStructure implements BinaryTree<Point2D>{
 			}
 		}
 		else if (e.getX() >= n.element().getX() && n.rightChild() != null) {
-			add(e, n.rightChild());
+			add(n.rightChild(), e);
 		}
 		else if (e.getX() < n.element().getX() && n.leftChild() != null) { 
-			add(e, n.leftChild());
+			add(n.leftChild(), e);
 		}
 	}
 	

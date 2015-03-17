@@ -7,11 +7,8 @@ public class BentleyOttmann {
 	private YStructure yStructure;
 	private XStructure xStructure;
 	private Polyline2D[] lines;
-	private Polyline2D line;
 	private ArrayList<Edge> edges;
 	private ArrayList<Point2D> vertices;
-	private int start = Integer.MIN_VALUE;
-	private int end = Integer.MAX_VALUE;
 	
 	public BentleyOttmann(Polyline2D pl1, Polyline2D pl2) {
 		lines = new Polyline2D[2];
@@ -21,10 +18,9 @@ public class BentleyOttmann {
 		edges = pl1.edges();
 		edges.addAll(pl2.edges());
 		Helper.sortByX(vertices);
-		//Helper.removeDuplicatePoints(vertices);
 		yStructure = new YStructure();
 		xStructure = new XStructure();
-		//xStructure.add(vertices);
+		xStructure.add(vertices);
 	}
 	
 	public ArrayList<Point2D> bentley() {
@@ -35,9 +31,9 @@ public class BentleyOttmann {
 			
 			BinaryTreeNode yRoot = yStructure.root();
 			Point2D currentPoint = xStructure.removeMin();
-			Edge currentEdge = min.edge();
+			Edge currentEdge = currentPoint.edge(); //will be erroneous if point is transitionpoint
 			
-			if (currentEdge.isLeft(currentPoint)) {  //the leftmost active point is the beginning of a line segment
+			if (currentEdge != null && currentEdge.isLeft(currentPoint)) {  //the leftmost active point is the beginning of a line segment
 				yStructure.add(currentPoint);  
 				Edge successor = yStructure.successor(currentEdge); //if x has a neighboring segment above itself save it in y
 				Edge predecessor = yStructure.predecessor(currentEdge); //if x has a neighboring segment below itself save it in z
@@ -47,7 +43,7 @@ public class BentleyOttmann {
 					checkIntersection(x,predecessor); //if below exists a segment, add their intersection to xStructure (if it exists)
 				removeIntersection(successor,predecessor); //if successor and predecessor intersect, remove intersection from xStructure
 				
-			} else if (currentEdge.isRight(currentPoint)) { //the leftmost active point is the end of a line segment 
+			} else if (currentEdge != null && currentEdge.isRight(currentPoint)) { //the leftmost active point is the end of a line segment 
 				Edge successor = yStructure.successor(currentPoint); //if x has a neighboring segment above itself save it in successor
 				Edge predecessor = yStructure.predecessor(currentPoint); //if x has a neighboring segment below itself save it in predecessor
 				yStructure.remove(yRoot, currentPoint); //remove segment of endpoint currentPoint
@@ -63,10 +59,10 @@ public class BentleyOttmann {
 				yStructure.remove(yRoot, bottom.left());
 				yStructure.add(yRoot, top.right());
 				yStructure.add(yRoot, bottom.right());
-				checkIntersection(u,predecessor); //check if u intersects with predecessor and add to xStructure
-				checkIntersection(v,successor); //check if v intersects with successor and add to xStructure
-				removeIntersection(u,successor); //remove intersection between u and successor if it exists
-				removeIntersection(v,predecessor); //remove intersection between v and predecessor if it exists
+				checkIntersection(top, bottombottom); //check if u intersects with predecessor and add to xStructure
+				checkIntersection(bottom, toptop); //check if v intersects with successor and add to xStructure
+				removeIntersection(top, toptop); //remove intersection between u and successor if it exists
+				removeIntersection(bottom, bottombottom); //remove intersection between v and predecessor if it exists
 			}
 		}
 		return intersections;
