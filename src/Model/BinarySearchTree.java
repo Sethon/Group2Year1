@@ -1,7 +1,5 @@
 package Model;
 
-
-
 import java.util.ArrayList;
 
 
@@ -124,20 +122,20 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		BinaryTreeNode<Point2D> x = mark.get(mark.size() - 2);
 		
 		if (y == z.getLeftChild() && x == y.getLeftChild()) {
-			System.out.println("LEFT LEFT");
+			//System.out.println("LEFT LEFT");
 			rotateRight(y);
 		}
 		else if (y == z.getLeftChild() && x == y.getRightChild()) {
-			System.out.println("LEFT RIGHT");
+			//System.out.println("LEFT RIGHT");
 			rotateLeft(x);
 			rotateRight(x);
 		}
 		else if (y == z.getRightChild() && x == y.getRightChild()) {
-			System.out.println("RIGHT RIGHT");
+			//System.out.println("RIGHT RIGHT");
 			rotateLeft(y);
 		}
 		else if (y == z.getRightChild() && x == y.getLeftChild()) {
-			System.out.println("RIGHT LEFT");
+			//System.out.println("RIGHT LEFT");
 			rotateRight(x);
 			rotateLeft(x);
 		}
@@ -183,20 +181,20 @@ public class BinarySearchTree implements BinaryTree<Point2D>{
 		}
 		
 		if (y == z.getLeftChild() && x == y.getLeftChild()) {
-			System.out.println("LEFT LEFT");
+			//System.out.println("LEFT LEFT");
 			rotateRight(y);
 		}
 		else if (y == z.getLeftChild() && x == y.getRightChild()) {
-			System.out.println("LEFT RIGHT");
+			//System.out.println("LEFT RIGHT");
 			rotateLeft(x);
 			rotateRight(x);
 		}
 		else if (y == z.getRightChild() && x == y.getRightChild()) {
-			System.out.println("RIGHT RIGHT");
+			//System.out.println("RIGHT RIGHT");
 			rotateLeft(y);
 		}
 		else if (y == z.getRightChild() && x == y.getLeftChild()) {
-			System.out.println("RIGHT LEFT");
+			//System.out.println("RIGHT LEFT");
 			rotateRight(x);
 			rotateLeft(x);
 		}
