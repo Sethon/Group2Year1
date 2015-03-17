@@ -25,7 +25,7 @@ public class Polyline2D implements Polyline<Point2D> {
 		return vertices.get(i);
 	}
 	
-	public ArrayList<Point2D> getVertices() {
+	public ArrayList<Point2D> vertices() {
 		return vertices;
 	}
 	
@@ -39,7 +39,7 @@ public class Polyline2D implements Polyline<Point2D> {
 		}
 	}
 	
-	public ArrayList<Edge> getEdges() {
+	public ArrayList<Edge> edges() {
 		return edges;
 	}
 	

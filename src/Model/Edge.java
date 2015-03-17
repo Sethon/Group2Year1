@@ -23,10 +23,16 @@ public class Edge {
 	public void setRight(Point2D p) {
 		right = p;
 	}
-	public Point2D getLeft() {
+	public Point2D left() {
 		return left;
 	}
-	public Point2D getRight() {
+	public Point2D right() {
 		return right;
+	}
+	public boolean isLeft(Point2D p) {
+		return left.equals(p);
+	}
+	public boolean isRight(Point2D p) {
+		return right.equals(p);
 	}
 }

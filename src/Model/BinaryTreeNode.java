@@ -1,8 +1,5 @@
 package Model;
 
-
-
-
 public class BinaryTreeNode<E> implements Position<E> {
 	private E 					element;
 	private BinaryTreeNode<E>	parent;
@@ -21,7 +18,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 		parent = p;
 		leftChild = null;
 		rightChild = null;
-		if (p.getLeftChild() == null) {
+		if (p.leftChild() == null) {
 			p.setLeftChild(this);
 		} else {
 			p.setRightChild(this);
@@ -44,7 +41,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 		rightChild = c2;
 		c1.setParent(this);
 		c2.setParent(this);
-		if (p.getLeftChild() == null) {
+		if (p.leftChild() == null) {
 			p.setLeftChild(this);
 		} else {
 			p.setRightChild(this);
@@ -55,7 +52,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 		parent = p;
 	}
 	
-	public BinaryTreeNode<E> getParent() {
+	public BinaryTreeNode<E> parent() {
 		return parent;
 	}
 	
@@ -63,7 +60,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 		leftChild = lc;
 	}
 	
-	public BinaryTreeNode<E> getLeftChild() {
+	public BinaryTreeNode<E> leftChild() {
 		return leftChild;
 	}
 	
@@ -71,15 +68,15 @@ public class BinaryTreeNode<E> implements Position<E> {
 		rightChild = rc;
 	}
 	
-	public BinaryTreeNode<E> getRightChild() {
+	public BinaryTreeNode<E> rightChild() {
 		return rightChild;
 	}
 	
-	public BinaryTreeNode<E> getSibling() {
-		if (this == parent.getLeftChild()) {
-			return parent.getRightChild();
+	public BinaryTreeNode<E> sibling() {
+		if (this == parent.leftChild()) {
+			return parent.rightChild();
 		} else {
-			return parent.getLeftChild();
+			return parent.leftChild();
 		}
 	}
 	
@@ -87,7 +84,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 		element = e;
 	}
 	
-	public E getElement() {
+	public E element() {
 		return element;
 	}
 	
@@ -99,17 +96,17 @@ public class BinaryTreeNode<E> implements Position<E> {
 		return ((leftChild == null) && (rightChild == null));
 	}
 	
-	public int getHeight() {
+	public int height() {
 		if(isExternal()) {
 			return 1;
 		} else {
 			if (leftChild != null && rightChild == null) {
-				return (1 + Math.max(leftChild.getHeight(), 0));
+				return (1 + Math.max(leftChild.height(), 0));
 			}
 			else if (leftChild == null && rightChild != null) {
-				return (1 + Math.max(0, rightChild.getHeight()));
+				return (1 + Math.max(0, rightChild.height()));
 			} else {
-				return (1 + Math.max(leftChild.getHeight(), rightChild.getHeight()));
+				return (1 + Math.max(leftChild.height(), rightChild.height()));
 			}
 		}
 	}
@@ -119,15 +116,15 @@ public class BinaryTreeNode<E> implements Position<E> {
 			return true;
 		} else {
 			if (leftChild != null && rightChild != null) {
-				return (((leftChild.getHeight() - rightChild.getHeight()) >= -1) && 
-				((leftChild.getHeight() - rightChild.getHeight()) <= 1));
+				return (((leftChild.height() - rightChild.height()) >= -1) && 
+				((leftChild.height() - rightChild.height()) <= 1));
 			}
 			else if (leftChild != null && rightChild == null) {
-				return (((leftChild.getHeight() >= -1) && 
-				((leftChild.getHeight() <= 1))));
+				return (((leftChild.height() >= -1) && 
+				((leftChild.height() <= 1))));
 			} else {
-				return (((rightChild.getHeight()) >= -1) && 
-				((rightChild.getHeight()) <= 1));
+				return (((rightChild.height()) >= -1) && 
+				((rightChild.height()) <= 1));
 			}
 		}
 	}

@@ -16,14 +16,14 @@ public class BentleyOttmann {
 	public BentleyOttmann(Polyline2D pl1, Polyline2D pl2) {
 		lines = new Polyline2D[2];
 		lines[0] = pl1; lines[1] = pl2;
-		vertices = pl1.getVertices();
-		vertices.addAll(pl2.getVertices());
-		edges = pl1.getEdges();
-		edges.addAll(pl2.getEdges());
+		vertices = pl1.vertices();
+		vertices.addAll(pl2.vertices());
+		edges = pl1.edges();
+		edges.addAll(pl2.edges());
 		Helper.sortByX(vertices);
 		//Helper.removeDuplicatePoints(vertices);
-		yStructure = new BinarySearchTree();
-		xStructure = new BinarySearchTree();
+		yStructure = new yStructure();
+		xStructure = new xStructure();
 		//xStructure.add(vertices);
 	}
 	
@@ -34,7 +34,7 @@ public class BentleyOttmann {
 		while (!xStructure.isEmpty()) {
 		
 			Point2D min = xStructure.removeMin();
-			Edge current = min.getEdge();
+			Edge current = min.edge();
 			
 			if (current.isLeft(min)) {  //the leftmost active point is the beginning of a line segment
 				yStructure.add(current);  

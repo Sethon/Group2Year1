@@ -78,14 +78,14 @@ public class CartesianPanel extends JPanel {
 		this.polyPanel = polyline;
 	}
 	
-	public JScrollPane getPolyline(){
+	public JPanel getPolyline(){
 		return polylinePanel();
 	}
 	
 	
 	private class InfoButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			String msg = ("Content:\nContent2:");
+			String msg = ("Content:\nContent2:" + ((JButton) e.getSource()).getName());
 		    JOptionPane optionPane = new JOptionPane();
 		    optionPane.setMessage(msg);
 		    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
@@ -98,18 +98,14 @@ public class CartesianPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == "Delete"){		
-				String t = e.getSource().getClass().getName();
-				lines.remove(Integer.parseInt(t));
+				lines.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
 				updatePanel();
-			}	
 		}	
 	}
 	
 	private JButton polyButton(int x){
 		JButton polyButton = new JButton("Info");
 		polyButton.setName(x+"");
-		
 		polyButton.addActionListener(new InfoButtonListener());
 		return polyButton;
 	}
@@ -129,21 +125,21 @@ public class CartesianPanel extends JPanel {
 			p.add(new JLabel("No. " + (x+1) + ":"));
 			p.add(polyButton(x));
 			p.add(deleteButton(x));
-			p.setName(""+x);
+			p.setName("" + x);
 			polyPanel.add(p);
 			polyPanel.revalidate();
 		}	
 	}
 	
 	
-	private JScrollPane polylinePanel(){	
+	private JPanel polylinePanel(){	
 		polyPanel.setPreferredSize(new Dimension(280, 500));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
-		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		p.setPreferredSize(new Dimension(290,500));
-		p.revalidate();
-		return p;
+//		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		p.setPreferredSize(new Dimension(290,500));
+		polyPanel.revalidate();
+		return polyPanel;
 	}
 	
 	
