@@ -1,6 +1,5 @@
 package Model;
 
-import Point2D;
 
 import java.util.*;
 
@@ -87,6 +86,7 @@ public class Helper {
 				}
 			}
 		}
+		return null;
 	}
 
 /*	
