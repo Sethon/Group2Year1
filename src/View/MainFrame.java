@@ -38,7 +38,6 @@ public class MainFrame {
 	
 	public MainFrame(){
 		frame = new JFrame();
-//		frame.setSize(700, 350);
         frame.setTitle("Flatland 1.0");
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
@@ -59,35 +58,34 @@ public class MainFrame {
 	private JPanel optionPanel(){
 		JPanel optionPanel = new JPanel();
 		optionPanel.setName("Options");
-		optionPanel.setPreferredSize(new Dimension(400, 1000));
-		optionPanel.add(polylinePanel(), BorderLayout.NORTH);
+		optionPanel.setPreferredSize(new Dimension(300, 1000));
+		optionPanel.add(cartesian.getPolyline(), BorderLayout.CENTER);
 		optionPanel.add(radioButtonPanel(), BorderLayout.SOUTH);
 		return optionPanel;
 	}
 
 	
-	private JPanel polylinePanel(){
-		JPanel polyPanel = new JPanel();
-		polyPanel.setName("Polylines");
-
-		JScrollPane scrollFrame = new JScrollPane();
-
-		scrollFrame.setPreferredSize(new Dimension( 900,200));
-		polyPanel.add(scrollFrame);
-		return polyPanel;
-	}
+//	private JPanel polylinePanel(){
+//		JPanel polyPanel = new JPanel();
+//		polyPanel.setName("Polylines");
+//
+//		JScrollPane scrollFrame = new JScrollPane();
+//
+//		scrollFrame.setPreferredSize(new Dimension( 900,200));
+//		polyPanel.add(scrollFrame);
+//		return polyPanel;
+//	}
 	
 	
 	private JPanel radioButtonPanel(){
 		JPanel panel = new JPanel();
 		JPanel panel1 = new JPanel();
-		JPanel panel2 = new JPanel();
 		
-		panel.setLayout(new GridLayout(4,1));
+		
+		panel.setLayout(new GridLayout(5,1));
 		panel1.setLayout(new GridLayout(2,1));
-//		panel2.setLayout(new GridLyout())
-		
-		panel1.setSize(new Dimension(200,1000));
+	
+		panel1.setSize(new Dimension(300,1000));
 		
 		intersectButton = new JRadioButton("Check intersection");
 		lengthPolyLineButton = new JRadioButton("Calculate length of Polyline");
@@ -107,10 +105,10 @@ public class MainFrame {
 		panel.add(lengthPolyLineButton);
 		panel.add(areaPolylineButton);
 		panel.add(bentleyButton);
-		panel2.add(run);
+		panel.add(run);
 		
 		panel1.add(panel);
-		panel1.add(panel2);
+		
 		
 		return panel1;	
 	}

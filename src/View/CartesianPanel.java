@@ -2,10 +2,14 @@ package View;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.MouseInfo;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -15,10 +19,19 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import Model.Point2D;
 import Model.Polyline2D;
+
 
 
 public class CartesianPanel extends JPanel {
@@ -43,7 +56,10 @@ public class CartesianPanel extends JPanel {
 	private int						currY;
 	private boolean					modificationMode;
 	
+	private JPanel polyPanel;
+	
 	public CartesianPanel() {
+		this.polyPanel = new JPanel();;
 		scale = DEF_SCALE;
 		x0 = Integer.MAX_VALUE;
 		y0 = Integer.MAX_VALUE;
@@ -58,6 +74,79 @@ public class CartesianPanel extends JPanel {
 		addMouseMotionListener(new MovementListener());
 	}
 
+	public void setPolyline(JPanel polyline){
+		this.polyPanel = polyline;
+	}
+	
+	public JScrollPane getPolyline(){
+		return polylinePanel();
+	}
+	
+	
+	private class InfoButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			String msg = ("Content:\nContent2:");
+		    JOptionPane optionPane = new JOptionPane();
+		    optionPane.setMessage(msg);
+		    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+		    JDialog dialog = optionPane.createDialog(null, "Info");
+		    dialog.setVisible(true);
+		}	
+	}
+	
+	private class DeleteButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == "Delete"){		
+				String t = e.getSource().getClass().getName();
+				lines.remove(Integer.parseInt(t));
+				updatePanel();
+			}	
+		}	
+	}
+	
+	private JButton polyButton(int x){
+		JButton polyButton = new JButton("Info");
+		polyButton.setName(x+"");
+		
+		polyButton.addActionListener(new InfoButtonListener());
+		return polyButton;
+	}
+	
+	private JButton deleteButton(int x){
+		JButton delete = new JButton("Delete");
+		delete.addActionListener(new DeleteButtonListener());
+		delete.setName("" + x);
+		return delete;
+	}
+	
+	private void updatePanel(){
+		polyPanel.removeAll();
+		for(int x = 0; x < lines.size(); x++){
+			JPanel p = new JPanel();
+			p.setLayout(new GridLayout(1,3));
+			p.add(new JLabel("No. " + (x+1) + ":"));
+			p.add(polyButton(x));
+			p.add(deleteButton(x));
+			p.setName(""+x);
+			polyPanel.add(p);
+			polyPanel.revalidate();
+		}	
+	}
+	
+	
+	private JScrollPane polylinePanel(){	
+		polyPanel.setPreferredSize(new Dimension(280, 500));
+		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
+		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		p.setPreferredSize(new Dimension(290,500));
+		p.revalidate();
+		return p;
+	}
+	
+	
 	public void paintComponent(Graphics g) {
 	    int width = getWidth();
 	    int height = getHeight();
@@ -129,6 +218,10 @@ public class CartesianPanel extends JPanel {
 	public void removeLine(int i) {
 		lines.remove(i);
 		repaint();
+	}
+	
+	public ArrayList<Polyline2D> getLine(){
+		return this.lines;
 	}
 	
 	private void setScale(int scale) {
@@ -206,6 +299,8 @@ public class CartesianPanel extends JPanel {
 		}
 	}
 	
+	
+	
 	private class KListener implements KeyListener {
 		public void keyTyped(KeyEvent e) {
 			
@@ -223,18 +318,22 @@ public class CartesianPanel extends JPanel {
 			else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 				translateOrigin(MOVE_FACTOR*scale, 0);
 			}
+			else if (e.getKeyCode() == KeyEvent.VK_ENTER){
+				updatePanel();
+			}
 		}
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_C) {
 				clear();
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				modificationMode = false;				
+				modificationMode = false;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			else if (e.getKeyCode() == KeyEvent.VK_S) {
 				if (modificationMode && lines.get(lines.size() - 1).getVertices().size() > 1) {
 					lines.get(lines.size() - 1).addPoint(lines.get(lines.size() - 1).getVertex(0));
 					modificationMode = false;
+					updatePanel();
 					repaint();
 				}
 			}
