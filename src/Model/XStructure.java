@@ -114,30 +114,23 @@ public class XStructure implements BinaryTree<Point2D>{
 		mark.add(n);
 		
 		while (z.isBalanced()) {
-			//System.out.println(mark);
 			mark.add(z);
 			z = z.getParent();
-			//System.out.println("UP");
 		}
-		//System.out.println(z);
 		BinaryTreeNode<Point2D> y = mark.get(mark.size() - 1);
 		BinaryTreeNode<Point2D> x = mark.get(mark.size() - 2);
 		
 		if (y == z.getLeftChild() && x == y.getLeftChild()) {
-			//System.out.println("LEFT LEFT");
 			rotateRight(y);
 		}
 		else if (y == z.getLeftChild() && x == y.getRightChild()) {
-			//System.out.println("LEFT RIGHT");
 			rotateLeft(x);
 			rotateRight(x);
 		}
 		else if (y == z.getRightChild() && x == y.getRightChild()) {
-			//System.out.println("RIGHT RIGHT");
 			rotateLeft(y);
 		}
 		else if (y == z.getRightChild() && x == y.getLeftChild()) {
-			//System.out.println("RIGHT LEFT");
 			rotateRight(x);
 			rotateLeft(x);
 		}
@@ -147,11 +140,8 @@ public class XStructure implements BinaryTree<Point2D>{
 		BinaryTreeNode<Point2D> z = n;
 		
 		while (z.isBalanced()) {
-			//System.out.println(mark);
 			z = z.getParent();
-			//System.out.println("UP");
 		}
-		//System.out.println(z);
 		BinaryTreeNode<Point2D> y;
 		if (z.getLeftChild() != null && z.getRightChild() != null) {
 			if (z.getLeftChild().getHeight() >= z.getRightChild().getHeight()) {
@@ -183,20 +173,16 @@ public class XStructure implements BinaryTree<Point2D>{
 		}
 		
 		if (y == z.getLeftChild() && x == y.getLeftChild()) {
-			//System.out.println("LEFT LEFT");
 			rotateRight(y);
 		}
 		else if (y == z.getLeftChild() && x == y.getRightChild()) {
-			//System.out.println("LEFT RIGHT");
 			rotateLeft(x);
 			rotateRight(x);
 		}
 		else if (y == z.getRightChild() && x == y.getRightChild()) {
-			//System.out.println("RIGHT RIGHT");
 			rotateLeft(y);
 		}
 		else if (y == z.getRightChild() && x == y.getLeftChild()) {
-			//System.out.println("RIGHT LEFT");
 			rotateRight(x);
 			rotateLeft(x);
 		}
@@ -205,10 +191,9 @@ public class XStructure implements BinaryTree<Point2D>{
 		}
 	}
 	
-	private void rotateRight(BinaryTreeNode<Point2D> n){    //Rotate the chosen node to the the left
-		if ((n.getParent()).isRoot()) {                   //Check if the parent is the root
+	private void rotateRight(BinaryTreeNode<Point2D> n){ 
+		if ((n.getParent()).isRoot()) {                   
 			BinaryTreeNode<Point2D> tmp = n.getRightChild();
-			//System.out.println(tmp);
 			n.setRightChild(n.getParent());
 			(n.getParent()).setParent(n);
 			(n.getParent()).setLeftChild(tmp);
@@ -217,12 +202,6 @@ public class XStructure implements BinaryTree<Point2D>{
 			}
 			n.setParent(null);
 			root = n;
-			
-			/*BinaryTreeNode<Point2D> m = n.getLeftChild(); //Make a new treenode with the left part of the chosen node.
-			n.setLeftChild(n.getParent());               //n's left child is his old parent.
-			(n.getLeftChild()).setRightChild(m);         //n's new left child needs to have the new treenode as his right child.
-			(n.getLeftChild()).setParent(n);             //n's new left child will have n as parent.
-			*/
 		}
 		else {
 			BinaryTreeNode<Point2D> tmp = n.getRightChild();
@@ -239,17 +218,6 @@ public class XStructure implements BinaryTree<Point2D>{
 			BinaryTreeNode<Point2D> tmp2 = n.getParent();
 			n.setParent((n.getParent()).getParent());
 			tmp2.setParent(n);
-			
-			
-			/*BinaryTreeNode<Point2D> m = n.getLeftChild();                         //Make a new treenode with the left part of the chosen node.
-			n.setLeftChild(n.getParent());										 //n's left child is his old parent.
-			(n.getLeftChild()).setRightChild(m);                                 //n's new left child needs to have the new treenode as his right child.
-			if(((n.getParent()).getParent()).getLeftChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as left child
-				((n.getParent()).getParent()).setLeftChild(n);
-			else																 //Parent of parent (soon to be parent of n) needs n as right child
-				((n.getParent()).getParent()).setRightChild(n);
-			(n.getLeftChild()).setParent(n);									 //n's new left child will have n as parent.
-			*/
 		}
 	}
 	
@@ -264,11 +232,6 @@ public class XStructure implements BinaryTree<Point2D>{
 			}
 			n.setParent(null);
 			root = n;
-			/*BinaryTreeNode<Point2D> m = n.getRightChild(); //Make a new treenode with the right part of the chosen node.
-			n.setRightChild(n.getParent());               //n's Right child is his old parent.
-			(n.getRightChild()).setLeftChild(m);         //n's new Right child needs to have the new treenode as his Left child.
-			(n.getRightChild()).setParent(n);             //n's new Right child will have n as parent.
-			*/
 		}
 		else {
 			BinaryTreeNode<Point2D> tmp = n.getLeftChild();
@@ -285,16 +248,6 @@ public class XStructure implements BinaryTree<Point2D>{
 			BinaryTreeNode<Point2D> tmp2 = n.getParent();
 			n.setParent((n.getParent()).getParent());
 			tmp2.setParent(n);
-			
-			/*BinaryTreeNode<Point2D> m = n.getRightChild();                         //Make a new treenode with the Right part of the chosen node.
-			n.setRightChild(n.getParent());										 //n's Right child is his old parent.
-			(n.getRightChild()).setLeftChild(m);                                 //n's new Right child needs to have the new treenode as his Left child.
-			if(((n.getParent()).getParent()).getRightChild() == n.getParent())    //Parent of parent (soon to be parent of n) needs n as Right child
-				((n.getParent()).getParent()).setRightChild(n);
-			else																 //Parent of parent (soon to be parent of n) needs n as Left child
-				((n.getParent()).getParent()).setLeftChild(n);
-			(n.getRightChild()).setParent(n);									 //n's new Right child will have n as parent.
-			*/
 		}
 		
 	}
