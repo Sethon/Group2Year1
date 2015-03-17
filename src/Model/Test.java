@@ -9,7 +9,7 @@ public class Test {
 		Point2D p1 = new Point2D(1,1);
 		Point2D p2 = new Point2D(3,5);
 		Point2D p3 = new Point2D(5,3);
-		Point2D p4 = new Point2D(8,7);
+		Point2D p4 = new Point2D(8,7);                 
 		Point2D p5 = new Point2D(2,8);
 		Point2D p6 = new Point2D(1,9);
 		Point2D p7 = new Point2D(1,5);
@@ -26,9 +26,11 @@ public class Test {
 		points.add(p8);
 		points.add(p9);
 		Polyline2D p2d = new Polyline2D(points);
-		Point2D point = new Point2D(1,8);
-		if(Helper.contains2(p2d, point))
+		Point2D point = new Point2D(4,5);
+		if(Helper.contains(p2d, point))
 			System.out.println("It contains the point");
+		
+		
 		//System.out.println("ROOT: " + bst.root());
 		bst.add(new Point2D(4.0, 7.0), bst.root());
 		//System.out.println("ROOT: " + bst.root());
@@ -44,7 +46,7 @@ public class Test {
 		//System.out.println(bst.root().getRightChild());
 		inOrder(bst.root());
 		//bst.remove(bst.root(), new Point2D(5.0, 0.0));
-		System.out.println(bst.isBalanced(bst.root()));
+//		System.out.println(bst.isBalanced(bst.root()));
 		//System.out.println("ROOT: " + bst.root());
 		bst.remove(bst.root(), new Point2D(7.0, 0.9));
 		bst.remove(bst.root(), new Point2D(5.5, 0.9));
@@ -55,10 +57,10 @@ public class Test {
 			bst.add(new Point2D(Math.random()*1000, 0.9), bst.root());
 		}
 		
-		System.out.println();
+//		System.out.println();
 		inOrder(bst.root());
-		System.out.println(bst.isBalanced(bst.root()));
-		System.out.println(bst.size());
+//		System.out.println(bst.isBalanced(bst.root()));
+//		System.out.println(bst.size());
 	}
 	
 	public static <E> void inOrder(BinaryTreeNode<E> v) {
@@ -66,7 +68,7 @@ public class Test {
 			if (v.isInternal()) {
 				inOrder(v.leftChild());
 			}
-			System.out.print(v.element() + " ");
+//			System.out.print(v.element() + " ");
 			if (v.isInternal()) {
 				inOrder(v.rightChild());
 			}
