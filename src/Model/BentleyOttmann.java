@@ -46,7 +46,7 @@ public class BentleyOttmann {
 					checkIntersect(x,z); //if below exists a segment, add their intersection to xStructure (if it exists)
 				(removeIntersect(y,z); //if y and z intersect, remove intersection from 
 				
-			} else if (current.isLeft(min)) { //the leftmost active point is the end of a line segment 
+			} else if (current.isRight(min)) { //the leftmost active point is the end of a line segment 
 				Edge y = yStructure.getSuccessor(current); //if x has a neighboring segment above itself save it in y
 				Edge z = yStructure.getPredecessor(current); //if x has a neighboring segment below itself save it in z
 				yStructure.removeEdge(current); //remove segment of endpoint min
