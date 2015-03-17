@@ -88,13 +88,14 @@ public class Helper {
 		Point2D left = new Point2D(Double.MIN_VALUE, point.getY());
 		Point2D right = new Point2D(point.getX(), point.getY());
 		boolean containing = false;
-		ArrayList<Point2D> vertices = p2d.getVertices();
+		ArrayList<Point2D> vertices = p2d.vertices();
 		for(int i = 0; i< vertices.size()-1; i++) {
 			if(vertices.get(i+1).getY() != point.getY()) {
 				if(((vertices.get(i)).getY()<=point.getY() || (vertices.get(i+1)).getY()<=point.getY())){
 					if(areIntersect((Point2D) vertices.get(i), (Point2D)vertices.get(i+1), left, right)) {
 System.out.println("Hit the vertices at " + vertices.get(i).getX() + "  " + i);
 						containing = !containing;
+						i++;
 					}
 				}
 			}
