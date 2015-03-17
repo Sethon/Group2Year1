@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Test {
 	public static void main(String[] args) {
-		BinarySearchTree bst = new BinarySearchTree(new Point2D(5.0, 0.0));
+		XStructure bst = new XStructure(new Point2D(5.0, 0.0));
 		
 		Point2D p1 = new Point2D(0,0);
 		Point2D p2 = new Point2D(5,0);
