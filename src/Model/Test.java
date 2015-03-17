@@ -8,9 +8,12 @@ public class Test {
 		Point2D p2 = new Point2D(4,5);
 		Point2D p3 = new Point2D(3,4);
 		Point2D p4 = new Point2D(3,2);                 
-		Edge e1 = new Edge(p1, p2);
-		Edge e2 = new Edge(p3, p4);
-		System.out.println(Helper.intersect(e1, e2));
+		YStructure ystr = new  YStructure(p1);
+		ystr.add(ystr.root(), p2);
+		ystr.add(ystr.root(), p3);
+		ystr.add(ystr.root(), p4);
+		System.out.println(ystr.successor(p2));
+		inOrder(ystr.root());
 	
 	}
 	
@@ -19,7 +22,7 @@ public class Test {
 			if (v.isInternal()) {
 				inOrder(v.leftChild());
 			}
-//			System.out.print(v.element() + " ");
+			System.out.print(v.element() + " ");
 			if (v.isInternal()) {
 				inOrder(v.rightChild());
 			}
