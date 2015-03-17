@@ -333,11 +333,11 @@ System.out.println("Clicking new one");
 				clear();
 				updatePanel();
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {		
 				modificationMode = false;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_S) {
-System.out.println("Finish it");				
+System.out.println("Finish it S" + modificationMode);				
 				if (modificationMode && lines.get(lines.size() - 1).vertices().size() > 1) {
 					lines.get(lines.size() - 1).addPoint(lines.get(lines.size() - 1).getVertex(0));
 					modificationMode = false;
