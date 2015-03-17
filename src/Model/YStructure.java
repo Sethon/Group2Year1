@@ -77,13 +77,14 @@ public class YStructure implements BinaryTree<Point2D>{
 		if (pn.rightChild() != null) {
 			return findMin(pn.rightChild()).edge();
 		}
-		while (root != null) {
-			if (pn.element().getY() < root.element().getY()) {
-				successor = root;
-				root = root.leftChild();
+		BinaryTreeNode<Point2D> actionNode = root;
+		while (actionNode != null) {
+			if (pn.element().getY() < actionNode.element().getY()) {
+				successor = actionNode;
+				actionNode = actionNode.leftChild();
 			} 
 			else if (pn.element().getY() > root.element().getY()) {
-				root = root.rightChild();
+				actionNode = actionNode.rightChild();
 			}
 			else
 				break;
