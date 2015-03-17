@@ -264,10 +264,52 @@ public class XStructure implements BinaryTree<Point2D>{
 		
 	}
 	
+	/*///try method for balancing out
+	public void recursiveBalance(BinaryTreeNode<Point2D> n) {
+		n.initBalance();
+		int balance = n.getBalance();
+		  
+		if(balance==-2) {
+		   if(n.leftChild().leftChild().height() >= n.leftChild().rightChild().height()) {
+			   rotateRight(n);
+			   n = n.leftChild();
+			   n.initBalance();
+		   } else {
+			   rotateLeft(n);
+			   n = n.rightChild();
+			   n.initBalance();
+			   rotateRight(n);
+			   n = n.leftChild();
+			   n.initBalance();
+		  }
+		} else if(balance==2) {
+			if(n.rightChild().rightChild().height() >=n.rightChild().leftChild().height()) {
+				rotateLeft(n);
+				n = n.rightChild();
+				n.initBalance();
+		   } else {
+			   rotateRight(n);
+			   n = n.leftChild();
+			   n.initBalance();
+			   rotateLeft(n);
+			   n = n.rightChild();
+			   n.initBalance();
+		   }
+		}
+		  
+		if(n.parent() !=null) {
+			recursiveBalance(n.parent());
+		} else {
+			this.root = n;
+			System.out.println("------------ Balancing finished ----------------");
+		}
+	}*/
+	
 	public Point2D remove(BinaryTreeNode<Point2D> n, Point2D e) {
 		if (n == null) {
 			return null;
 		}  else {
+			size--;
 			BinaryTreeNode<Point2D> m = search(e, n);
 			if (m == null) {
 				return null;
@@ -275,7 +317,7 @@ public class XStructure implements BinaryTree<Point2D>{
 			Point2D element = m.element();
 			if(size == 1) {
 				root = null;
-				size--;
+				
 				return element;
 			}
 			BinaryTreeNode<Point2D> actionNode = m.parent();
@@ -356,10 +398,9 @@ public class XStructure implements BinaryTree<Point2D>{
 				
 
 			}
-			size--;
 			m = null;
 			if (!(isBalanced(root))) {
-				balanceAfterRemove(actionNode);
+				//balanceAfterRemove(actionNode);
 			}
 			return element;
 		}

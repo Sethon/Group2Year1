@@ -5,6 +5,7 @@ public class BinaryTreeNode<E> implements Position<E> {
 	private BinaryTreeNode<E>	parent;
 	private BinaryTreeNode<E> 	leftChild;
 	private BinaryTreeNode<E> 	rightChild;
+	private int 				balanceF;
 	
 	public BinaryTreeNode(E e) {
 		element = e;
@@ -127,6 +128,24 @@ public class BinaryTreeNode<E> implements Position<E> {
 				((rightChild.height()) <= 1));
 			}
 		}
+	}
+	
+	public void initBalance() {
+		if (leftChild != null && rightChild != null) {
+			balanceF = leftChild.height() - rightChild.height();
+		}
+		else if (leftChild == null && rightChild != null) {
+			balanceF = 0 - rightChild.height();
+		}
+		else if (leftChild != null && rightChild != null){
+			balanceF = leftChild.height();
+		} else {
+			balanceF = 0;
+		}
+	}
+	
+	public int getBalance() {
+		return balanceF;
 	}
 	
 	public boolean isRoot() {

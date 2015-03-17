@@ -83,6 +83,7 @@ public class Helper {
 				boolean isInX2 = (((xi <= p3.getX()) && (xi >= p2.getX())) || ((xi >= p3.getX()) && (xi <= p2.getX())));
 				if (isInX1 && isInX2 && fulfilled) {
 					double yi = (a2*xi)+b2;
+					System.out.println("Inter here");
 						if (a1 >= 0 && a2 <= 0) {
 							return new Point2D(xi, yi, edge1, edge2);
 						} else {

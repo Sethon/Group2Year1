@@ -31,9 +31,10 @@ public class BentleyOttmann {
 		ArrayList<Point2D> intersections = new ArrayList<>();
 		
 		while (!(xStructure.isEmpty())) {
-			System.out.println(xStructure.size());
+			//System.out.println(xStructure.size());
 			Point2D currentPoint = xStructure.removeMin();
-			System.out.println(currentPoint);
+			//System.out.println(xStructure.size());
+			//System.out.println(currentPoint);
 			Edge currentEdge = currentPoint.edge(); 
 			//BinaryTreeNode<Point2D> yRoot = yStructure.root(); ???
 			Point2D intersection; //???
@@ -77,6 +78,7 @@ public class BentleyOttmann {
 				}
 			} else {
 				intersections.add(currentPoint);
+				System.out.println("BLAAAH");
 				Edge top = currentPoint.top();
 				Edge bottom = currentPoint.bottom();
 				Edge successorTop = yStructure.successor(top.left());
