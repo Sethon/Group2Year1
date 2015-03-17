@@ -4,6 +4,8 @@ package Model;
 public class Point2D implements Point, Comparable<Object> {
 	private double[] coordinates;
 	private Edge edge;
+	private Edge top;
+	private Edge bottom;
 	
 	public Point2D(double x, double y) {
 		coordinates = new double[2];
@@ -15,6 +17,12 @@ public class Point2D implements Point, Comparable<Object> {
 		coordinates[0] = x;
 		coordinates[1] = y;
 		edge = e;
+	}
+	public Point2D(double x, double y, Edge t, Edge b) {
+		coordinates = new double[2];
+		coordinates[0] = x;
+		coordinates[1] = y;
+		top = t; bottom = b;
 	}
 	public Point2D() {
 		coordinates = new double[2];
@@ -42,6 +50,15 @@ public class Point2D implements Point, Comparable<Object> {
 	public Edge edge() {
 		return edge;
 	}
+	
+	public Edge top() {
+		return top;
+	}
+	
+	public Edge bottom() {
+		return bottom;
+	}
+	
 	public boolean equals(Object o) {
 		Point2D p2d = (Point2D) o;
 		return (p2d.getX() == getX()) && (p2d.getY() == getY());
