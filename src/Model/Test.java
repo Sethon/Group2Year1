@@ -25,6 +25,12 @@ public class Test {
 		bst.remove(bst.root(), new Point2D(6.0, 1.0));
 		//bst.remove(bst.root(), new Point2D(4.0, 100.0));
 		inOrder(bst.root());
+		for (int i = 0; i < 100; i++) {
+			bst.add(new Point2D(Math.random()*1000, 0.9), bst.root());
+		}
+		
+		System.out.println();
+		inOrder(bst.root());
 		System.out.println(bst.isBalanced(bst.root()));
 		System.out.println(bst.size());
 	}
