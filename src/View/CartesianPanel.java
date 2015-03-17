@@ -336,7 +336,7 @@ System.out.println("Clicking new one");
 			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				modificationMode = false;
 			}
-			else if (e.getKeyCode() == KeyEvent.VK_Q) {
+			else if (e.getKeyCode() == KeyEvent.VK_S) {
 System.out.println("Finish it");				
 				if (modificationMode && lines.get(lines.size() - 1).vertices().size() > 1) {
 					lines.get(lines.size() - 1).addPoint(lines.get(lines.size() - 1).getVertex(0));
