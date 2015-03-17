@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class YStructure implements BinaryTree<Point2D>{
 	private BinaryTreeNode<Point2D> 	root;
-	private int 					size;
+	private int 						size;
 	
 	public YStructure(Point2D p) {
 		root = new BinaryTreeNode<Point2D>(p);
@@ -69,13 +69,13 @@ public class YStructure implements BinaryTree<Point2D>{
 			return null;
 		}
 	}
-
+	
+	//successor - ABOVE
 	public Edge successor(Point2D p) {
-
-		BinaryTreeNode<Point2D> successor = null;
-		BinaryTreeNode<Point2D> pn = search(p, root);
-		if (pn.rightChild() != null) {
-			return findMin(pn.rightChild()).edge();
+		BinaryTreeNode<Point2D> currNode = search(p, root);
+		
+		/*if (currNode.rightChild() != null) {
+			return findMin(currNode.rightChild()).edge();
 		}
 		BinaryTreeNode<Point2D> actionNode = root;
 		while (actionNode != null) {
@@ -91,9 +91,31 @@ public class YStructure implements BinaryTree<Point2D>{
 		}
 		if (successor == null) 
 			return null;
-		return successor.element().edge();
+		return successor.element().edge();*/
+		
+		if (currNode.rightChild() == null) {
+			if (currNode.isRoot()) {
+				return null;
+			} else {
+				currNode = currNode.parent();
+				while (currNode.parent() != null) {
+					if ((currNode.parent()).leftChild() == currNode) {
+						return (currNode.parent()).element().edge();
+					}
+					currNode = currNode.parent();
+				}
+				return null;
+			}
+		} else {
+			currNode = currNode.rightChild();
+			while (currNode.leftChild() != null) {
+				currNode = currNode.leftChild();
+			}
+			return currNode.element().edge();
+		}
 	}
-
+	
+	//predecessor - BELOW
 	public Edge predecessor(Point2D p) {
 
 		BinaryTreeNode<Point2D> pn = search(p, root);
@@ -123,7 +145,7 @@ public class YStructure implements BinaryTree<Point2D>{
 		return n.isRoot();
 	}
 	
-	public Point2D findMin(BinaryTreeNode<Point2D> currNode) {
+	/*public Point2D findMin(BinaryTreeNode<Point2D> currNode) {
 		if (isEmpty()) {
 			return null;
 		} else {
@@ -143,7 +165,7 @@ public class YStructure implements BinaryTree<Point2D>{
 			}
 			return currNode.element(); 
 		}
-	}
+	}*/
 
 	public void swapElements(BinaryTreeNode<Point2D> n, BinaryTreeNode<Point2D> m) {
 		Point2D tmp = n.element();

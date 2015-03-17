@@ -49,16 +49,7 @@ public class Helper {
 		
 		//one of segments or both are vertical
 		
-		if ((p1.getX() == p0.getX()) && (p3.getX() != p2.getX())) {
-			return null;	
-		}
-		else if ((p1.getX() != p0.getX()) && (p3.getX() == p2.getX())) {
-			return null;
-		}
-		else if ((p1.getX() == p0.getX()) && (p3.getX() == p2.getX())) {
-			return null;
-		}
-		else {
+		if ((p1.getX() != p0.getX()) && (p3.getX() != p2.getX())) {
 			//a = dy/dx
 			double a1 = (p1.getY() - p0.getY())/(p1.getX() - p0.getX());
 			double a2 = (p3.getY() - p2.getY())/(p3.getX() - p2.getX());
@@ -69,7 +60,7 @@ public class Helper {
 			if (((a1 - a2) == 0) ^ ((b2 - b1) == 0)) {
 				return null;
 			}
-			//segments have a common segment 
+			//segments may overlap
 			else if (((a1 - a2) == 0) && ((b2 - b1) == 0)) {
 				return null;
 			} else {
@@ -83,27 +74,15 @@ public class Helper {
 						} else {
 							return new Point2D(xi, yi, edge2, edge1);
 						}
+				} else {
+					return null;
 				}
 			}
+		} else {
+			return null;
 		}
-		return null;
 	}
 
-/*	
-	public static boolean contains2(Polyline2D p2d, Point2D point){
-		boolean containing = false;
-		ArrayList<Point2D> vertices = p2d.getVertices();
-		int j = vertices.size() - 2;
-		for(int i = 0; i< vertices.size(); i++) {
-			if((vertices.get(i).getY() < point.getY() && vertices.get(j).getY() >= point.getY()) || (vertices.get(i).getY() >= point.getY() && vertices.get(j).getY() < point.getY())){
-				if(vertices.get(i).getX() + (point.getY()-vertices.get(i).getY())/(vertices.get(j).getY() - vertices.get(i).getY()) * (vertices.get(j).getX()-vertices.get(i).getX())<point.getX())
-					containing = !containing;
-			}
-			j = i;
-		}
-		return containing;
-	}
-	*/
 	public static boolean contains(Polyline2D p2d, Point2D point){
 		Point2D left = new Point2D(-Double.MAX_VALUE, point.getY());
 		
@@ -127,11 +106,12 @@ public class Helper {
 	}
 	
 	private static boolean goesThrough(Polyline2D p2d, Point2D point1, Point2D point2) {
-		
 		double a = (point1.getY() - point1.getY())/(point1.getX() - point1.getX());
 		double b = point1.getY() - a * point1.getX();
 		for (int i = 0; i < p2d.vertices().size(); i++) {
-			if (a*p2d.getVertex(i).getX() + b == p2d.getVertex(i).getY() && ((p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) || (p2d.getVertex(i).getX() > point1.getX() && p2d.getVertex(i).getX() < point2.getX()) )) {
+			if (a*p2d.getVertex(i).getX() + b == p2d.getVertex(i).getY() && 
+			((p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) || 
+			(p2d.getVertex(i).getX() > point1.getX() && p2d.getVertex(i).getX() < point2.getX()))) {
 				return true;
 			}
 		}
