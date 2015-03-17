@@ -125,8 +125,7 @@ System.out.println("Hit the vertices at " + vertices.get(i).getX() + "  " + i);
 		return containing;
 	}
 	
-	/*
-public static boolean areIntersect(Point2D p0, Point2D p1, Point2D p2, Point2D p3) {
+	public static boolean areIntersect(Point2D p0, Point2D p1, Point2D p2, Point2D p3) {
 		//one of segments or both are vertical
 		if ((p1.getX() == p0.getX()) && (p3.getX() != p2.getX())) {
 			return (((p0.getX() <= p3.getX()) && (p0.getX() >= p2.getX())) || ((p0.getX() >= p3.getX()) && (p0.getX() <= p2.getX())));
@@ -159,5 +158,4 @@ public static boolean areIntersect(Point2D p0, Point2D p1, Point2D p2, Point2D p
 			}
 		}
 	}
-	 */
 }
