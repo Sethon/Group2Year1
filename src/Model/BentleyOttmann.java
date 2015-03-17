@@ -17,7 +17,7 @@ public class BentleyOttmann {
 		vertices.addAll(pl2.vertices());
 		edges = pl1.edges();
 		edges.addAll(pl2.edges());
-		Helper.sortByX(vertices);
+		//Helper.sortByX(vertices); don't need it
 		xStructure = new XStructure(vertices.get(0));
 		BinaryTreeNode<Point2D> xRoot = xStructure.root();
 		for (int i = 1; i < vertices.size(); i++) {
@@ -30,13 +30,87 @@ public class BentleyOttmann {
 		yStructure = null;
 		ArrayList<Point2D> intersections = new ArrayList<>();
 		
-		while (!xStructure.isEmpty()) {
-			
+		while (!(xStructure.isEmpty())) {
+			System.out.println(xStructure.size());
 			Point2D currentPoint = xStructure.removeMin();
+			System.out.println(currentPoint);
 			Edge currentEdge = currentPoint.edge(); 
-			BinaryTreeNode<Point2D> yRoot = yStructure.root();
-			Point2D intersection;
-			
+			//BinaryTreeNode<Point2D> yRoot = yStructure.root(); ???
+			Point2D intersection; //???
+			if (currentEdge != null) {
+				if (currentEdge.isLeft(currentPoint)) {
+					if (yStructure == null) {
+						yStructure = new YStructure(currentPoint);
+					} else {
+						yStructure.add(yStructure.root(), currentPoint);
+					}
+					Edge successor = yStructure.successor(currentPoint);
+					Edge predecessor = yStructure.predecessor(currentPoint);
+					if (successor != null) {
+						Point2D interPoint = Helper.intersect(successor, currentEdge, currentPoint, true);
+						if (interPoint != null) {
+							xStructure.add(xStructure.root(), interPoint);
+						}
+					}
+					if (predecessor != null) {
+						Point2D interPoint = Helper.intersect(predecessor, currentEdge, currentPoint, true);
+						if (interPoint != null) {
+							xStructure.add(xStructure.root(), interPoint);
+						}
+					}
+					if (successor != null && successor != null) {
+						Point2D interPoint = Helper.intersect(predecessor, successor, currentPoint, true);
+						if (interPoint != null) {
+							xStructure.remove(xStructure.root(), interPoint);
+						}
+					}
+				} else {
+					Edge successor = yStructure.successor(currentPoint);
+					Edge predecessor = yStructure.predecessor(currentPoint);
+					yStructure.remove(yStructure.root(), currentPoint);
+					if (successor != null && successor != null) {
+						Point2D interPoint = Helper.intersect(predecessor, successor, currentPoint, true);
+						if (interPoint != null) {
+							xStructure.add(xStructure.root(), interPoint);
+						}
+					}
+				}
+			} else {
+				intersections.add(currentPoint);
+				Edge top = currentPoint.top();
+				Edge bottom = currentPoint.bottom();
+				Edge successorTop = yStructure.successor(top.left());
+				Edge predecessorBottom = yStructure.predecessor(bottom.left());
+				if (successorTop != null) {
+					Point2D interPoint = Helper.intersect(bottom, successorTop, currentPoint, true);
+					if (interPoint != null) {
+						xStructure.add(xStructure.root(), interPoint);
+					}
+				}
+				if (predecessorBottom != null) {
+					Point2D interPoint = Helper.intersect(top, predecessorBottom, currentPoint, true);
+					if (interPoint != null) {
+						xStructure.add(xStructure.root(), interPoint);
+					}
+				}
+				yStructure.remove(yStructure.root(), top.left());
+				yStructure.remove(yStructure.root(), bottom.left());
+				yStructure.add(yStructure.root(), top.right());
+				yStructure.add(yStructure.root(), bottom.right());
+				if (successorTop != null) {
+					Point2D interPoint = Helper.intersect(top, successorTop, currentPoint, true);
+					if (interPoint != null) {
+						xStructure.remove(xStructure.root(), interPoint);
+					}
+				}
+				if (predecessorBottom != null) {
+					Point2D interPoint = Helper.intersect(bottom, predecessorBottom, currentPoint, true);
+					if (interPoint != null) {
+						xStructure.remove(xStructure.root(), interPoint);
+					}
+				}
+			}
+			/*
 			if (currentEdge != null && currentEdge.isLeft(currentPoint)) { 
 				if (yStructure == null)
 					yStructure = new YStructure(currentPoint);
@@ -81,10 +155,11 @@ public class BentleyOttmann {
 					xStructure.remove(xStructure.root(), intersection);
 			}
 		}
+		return intersections;*/
+		}
 		return intersections;
-	}
 	
-	public Point2D intersect(Edge edge1, Edge edge2) {
+	/* Point2D intersect(Edge edge1, Edge edge2) {
 		if (edge1 == null || edge2 == null){
 			return null;
 		}
@@ -133,6 +208,7 @@ public class BentleyOttmann {
 				}
 			}
 		}
-		return null;
+		return null;*/
+	
 	}
 }

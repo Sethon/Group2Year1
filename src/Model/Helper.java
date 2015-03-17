@@ -37,7 +37,7 @@ public class Helper {
 			}
 	}
 	
-	public static Point2D intersect(Edge edge1, Edge edge2) {
+	public static Point2D intersect(Edge edge1, Edge edge2, Point2D p, boolean right) {
 		if (edge1 == null || edge2 == null){
 			return null;
 		}
@@ -65,9 +65,23 @@ public class Helper {
 				return null;
 			} else {
 				double xi = (b2 - b1)/(a1 - a2);
+				boolean fulfilled;
+				if (right) {
+					if (xi > p.getX()) {
+						fulfilled = true;
+					} else {
+						fulfilled = false;
+					}
+				} else {
+					if (xi < p.getX()) {
+						fulfilled = true;
+					} else {
+						fulfilled = false;
+					}
+				}
 				boolean isInX1 = (((xi <= p1.getX()) && (xi >= p0.getX())) || ((xi >= p1.getX()) && (xi <= p0.getX())));
 				boolean isInX2 = (((xi <= p3.getX()) && (xi >= p2.getX())) || ((xi >= p3.getX()) && (xi <= p2.getX())));
-				if (isInX1 && isInX2) {
+				if (isInX1 && isInX2 && fulfilled) {
 					double yi = (a2*xi)+b2;
 						if (a1 >= 0 && a2 <= 0) {
 							return new Point2D(xi, yi, edge1, edge2);

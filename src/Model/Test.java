@@ -4,17 +4,40 @@ import java.util.*;
 
 public class Test {
 	public static void main(String[] args) {
-		Point2D p1 = new Point2D(1,1);
-		Point2D p2 = new Point2D(4,5);
-		Point2D p3 = new Point2D(3,4);
-		Point2D p4 = new Point2D(3,2);                 
-		YStructure ystr = new  YStructure(p1);
-		ystr.add(ystr.root(), p2);
-		ystr.add(ystr.root(), p3);
-		ystr.add(ystr.root(), p4);
-		System.out.println(ystr.successor(p2));
-		inOrder(ystr.root());
-	
+		Point2D p1 = new Point2D(0,3);
+		Point2D p2 = new Point2D(4,0);
+		Point2D p3 = new Point2D(9,6);
+		Point2D p4 = new Point2D(14,1); 
+		ArrayList<Point2D> line1 = new ArrayList<Point2D>();
+		line1.add(p1);
+		line1.add(p2);
+		line1.add(p3);
+		line1.add(p4);
+		
+		Point2D p5 = new Point2D(0,0);
+		Point2D p6 = new Point2D(4,4);
+		Point2D p7 = new Point2D(15,4); 
+		ArrayList<Point2D> line2 = new ArrayList<Point2D>();
+		line2.add(p5);
+		line2.add(p6);
+		line2.add(p7);
+
+		Polyline2D pl1 = new Polyline2D(line1);
+		Polyline2D pl2 = new Polyline2D(line2);
+		BentleyOttmann bo = new BentleyOttmann(pl1, pl2);
+		//ArrayList<Point2D> inters = bo.bentley();
+		//System.out.println(inters);
+		XStructure xstr = new XStructure(p3);
+		xstr.add(xstr.root(), p1);
+		xstr.add(xstr.root(), p2);
+		xstr.add(xstr.root(), p3);
+		xstr.add(xstr.root(), p4);
+		xstr.add(xstr.root(), p5);
+		xstr.add(xstr.root(), p6);
+		xstr.add(xstr.root(), p7);
+		inOrder(xstr.root());
+		xstr.removeMin();
+		inOrder(xstr.root());
 	}
 	
 	public static <E> void inOrder(BinaryTreeNode<E> v) {

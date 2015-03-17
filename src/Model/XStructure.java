@@ -148,9 +148,11 @@ public class XStructure implements BinaryTree<Point2D>{
 	
 	private void balanceAfterRemove(BinaryTreeNode<Point2D> n) {
 		BinaryTreeNode<Point2D> z = n;
-		
+		System.out.println();
+		System.out.println(z.element());
+		System.out.println(z.isBalanced());
 		while (z.isBalanced()) {
-			z = z.parent();
+			z = z.parent();	
 		}
 		BinaryTreeNode<Point2D> y;
 		if (z.leftChild() != null && z.rightChild() != null) {
