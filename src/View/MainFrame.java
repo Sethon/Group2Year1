@@ -80,8 +80,8 @@ public class MainFrame {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         frame.add(cartesian);
         frame.setVisible(true);
-        cartesian.requestFocus();
         frame.setFocusable(true);
+        cartesian.requestFocus();
         frame.pack();
 	}
 	

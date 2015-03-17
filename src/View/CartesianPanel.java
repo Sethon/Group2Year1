@@ -32,6 +32,11 @@ import javax.swing.border.TitledBorder;
 import Model.Point2D;
 import Model.Polyline2D;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.KeyStroke;
+
+
 
 
 public class CartesianPanel extends JPanel {
@@ -61,7 +66,7 @@ public class CartesianPanel extends JPanel {
 	private JPanel polyPanel;
 	
 	public CartesianPanel() {
-		this.polyPanel = new JPanel();;
+		this.polyPanel = new JPanel();
 		scale = DEF_SCALE;
 		x0 = Integer.MAX_VALUE;
 		y0 = Integer.MAX_VALUE;
@@ -74,8 +79,9 @@ public class CartesianPanel extends JPanel {
 		addKeyListener(new KListener());
 		addMouseListener(new ClickListener());
 		addMouseMotionListener(new MovementListener());
-	}
+		
 
+	}
 	public void setPolyline(JPanel polyline){
 		this.polyPanel = polyline;
 	}
@@ -103,8 +109,11 @@ public class CartesianPanel extends JPanel {
 				lines.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
 				lineNumbers.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
 				polyPanel.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
+//System.out.println("Deleted");
 				updatePanel();
 				polyPanel.repaint();
+//System.out.println("Updated");
+				repaint();
 		}	
 	}
 	
@@ -134,6 +143,7 @@ public class CartesianPanel extends JPanel {
 			polyPanel.add(p);
 			polyPanel.revalidate();
 			polyPanel.invalidate();
+			polyPanel.repaint();
 		}	
 	}
 	
@@ -213,6 +223,8 @@ public class CartesianPanel extends JPanel {
 		while (!(lines.isEmpty())) {
 			lines.remove(lines.size() - 1);
 		}
+		updatePanel();
+		polyPanel.repaint();
 		modificationMode = false;
 		repaint();
 	}
@@ -290,7 +302,7 @@ public class CartesianPanel extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 			if (modificationMode) {
 				lines.get(lines.size() - 1).addPoint(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale));
-System.out.println("Clicking");
+//System.out.println("Clicking");
 				repaint();
 			} else {
 				modificationMode = true;
@@ -299,7 +311,8 @@ System.out.println("Clicking");
 				lines.add(new Polyline2D(tmp));
 				count++;
 				lineNumbers.add(count);
-System.out.println("Clicking new one");
+//System.out.println("Clicking new one");
+				requestFocusInWindow();
 				repaint();
 			}
 		}
@@ -337,11 +350,11 @@ System.out.println("Clicking new one");
 				modificationMode = false;
 			}
 			else if (e.getKeyCode() == KeyEvent.VK_S) {
-System.out.println("Finish it S" + modificationMode);				
+//System.out.println("Finish it S" + modificationMode);				
 				if (modificationMode && lines.get(lines.size() - 1).vertices().size() > 1) {
 					lines.get(lines.size() - 1).addPoint(lines.get(lines.size() - 1).getVertex(0));
 					modificationMode = false;
-System.out.println("Finish it");
+//System.out.println("Finish it");
 					updatePanel();
 					repaint();
 				}
