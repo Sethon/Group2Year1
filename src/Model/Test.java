@@ -26,7 +26,7 @@ public class Test {
 		points.add(p8);
 		points.add(p9);
 		Polyline2D p2d = new Polyline2D(points);
-		Point2D point = new Point2D(2,9);
+		Point2D point = new Point2D(1,8);
 		if(Helper.contains2(p2d, point))
 			System.out.println("It contains the point");
 		//System.out.println("ROOT: " + bst.root());

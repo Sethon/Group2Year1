@@ -69,13 +69,11 @@ public class Helper {
 			}
 		}
 	}
-	
-	public static boolean contains2(Polyline2D p2d, Points2D point){
-		Point2D left = new Point2D(Double.MIN_VALUE, point.getY());
-		Point2D right = new Point2D(point.getX(), point.getY());
+/*	
+	public static boolean contains2(Polyline2D p2d, Point2D point){
 		boolean containing = false;
 		ArrayList<Point2D> vertices = p2d.getVertices();
-		j = vertices.size() - 2;
+		int j = vertices.size() - 2;
 		for(int i = 0; i< vertices.size(); i++) {
 			if((vertices.get(i).getY() < point.getY() && vertices.get(j).getY() >= point.getY()) || (vertices.get(i).getY() >= point.getY() && vertices.get(j).getY() < point.getY())){
 				if(vertices.get(i).getX() + (point.getY()-vertices.get(i).getY())/(vertices.get(j).getY() - vertices.get(i).getY()) * (vertices.get(j).getX()-vertices.get(i).getX())<point.getX())
@@ -83,6 +81,7 @@ public class Helper {
 			}
 			j = i;
 		}
+		return containing;
 	}
 	
 	public static boolean contains(Polyline2D p2d, Point2D point){
@@ -110,4 +109,5 @@ System.out.println("Hit the vertices at " + vertices.get(i).getX() + "  " + i);
 		
 		return containing;
 	}
+	*/
 }
