@@ -70,23 +70,44 @@ public class Helper {
 		}
 	}
 	
+	public static boolean contains2(Polyline2D p2d, Points2D point){
+		Point2D left = new Point2D(Double.MIN_VALUE, point.getY());
+		Point2D right = new Point2D(point.getX(), point.getY());
+		boolean containing = false;
+		ArrayList<Point2D> vertices = p2d.getVertices();
+		j = vertices.size() - 2;
+		for(int i = 0; i< vertices.size(); i++) {
+			if((vertices.get(i).getY() < point.getY() && vertices.get(j).getY() >= point.getY()) || (vertices.get(i).getY() >= point.getY() && vertices.get(j).getY() < point.getY())){
+				if(vertices.get(i).getX() + (point.getY()-vertices.get(i).getY())/(vertices.get(j).getY() - vertices.get(i).getY()) * (vertices.get(j).getX()-vertices.get(i).getX())<point.getX())
+					containing = !containing;
+			}
+			j = i;
+		}
+	}
+	
 	public static boolean contains(Polyline2D p2d, Point2D point){
-		Point2D left = new Point2D((double) Integer.MIN_VALUE, point.getY());
-		Point2D right = new Point2D((double) point.getX()+0.1, point.getY());
-		
+		Point2D left = new Point2D(Double.MIN_VALUE, point.getY());
+		Point2D right = new Point2D(point.getX(), point.getY());
+		boolean containing = false;
+		boolean lastHit = true;
 		int counter = 0;
 		ArrayList<Point2D> vertices = p2d.getVertices();
 		for(int i = 0; i< vertices.size()-1; i++) {
-			if(areIntersect((Point2D) vertices.get(i), (Point2D)vertices.get(i%vertices.size()), left, right))
-			{
-				counter++;
+			if(((vertices.get(i)).getX()<=point.getX() || (vertices.get(i+1)).getX()<=point.getX()) && lastHit){
+				if(areIntersect((Point2D) vertices.get(i), (Point2D)vertices.get(i+1), left, right)) {
+System.out.println("Hit the vertices at " + vertices.get(i).getX() + "  " + i);
+					counter++;
+				}
+				if(vertices.get(i+1).getY() == point.getY())
+					lastHit = false;
 			}
+		}	
+		if(counter%2==1)
+			containing = true;
+		else
+			containing = false;
 			
-			if(areIntersect(left,right,point,point)) {
-				if(counter%2==1)
-					return true;
-			}
-		}
-		return false;
+		
+		return containing;
 	}
 }
