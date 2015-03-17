@@ -108,41 +108,34 @@ public class Helper {
 		Point2D left = new Point2D(-Double.MAX_VALUE, point.getY());
 		
 		int cnt = 0;
-		/*for (int i = 0; i < p2d.vertices().size(); i++) {
+		for (int i = 0; i < p2d.vertices().size(); i++) {
 			if (p2d.getVertex(i).getX() == point.getX() && p2d.getVertex(i).getY() == point.getY()) {
 				return true;
 			}
-		}*/
+		}
+		while (goesThrough(p2d, point, left)) {
+			System.out.println("TROUBLE");
+			left = new Point2D(-Double.MAX_VALUE, point.getY() + Math.random());
+		}
 		for (int i = 0; i < p2d.vertices().size() - 1; i++) {
-			if (p2d.getVertex(i).getY() == point.getY()) {
-				System.out.println("SPECIAL CASE");
-				if (areIntersect(new Point2D(p2d.getVertex(i).getX(), p2d.getVertex(i).getY() + 0.1), p2d.getVertex(i + 1), point, left)) {
-					cnt++;
-				}
-			} 
-			//else if (p2d.getVertex(i + 1).getY() == point.getY()) {
-				//if (areIntersect(new Point2D(p2d.getVertex(i).getX(), p2d.getVertex(i).getY() - 0.1), p2d.getVertex(i + 1), point, left)) {
-					// cnt++;
-				// }
-			/*}*/ else {
-				if (areIntersect(p2d.getVertex(i), p2d.getVertex(i + 1), point, left)) {
-					System.out.println(i);
-					cnt++;
-				}
+			if (areIntersect(p2d.getVertex(i), p2d.getVertex(i + 1), point, left)) {
+				System.out.println(i);
+				cnt++;
 			}
 		}
-		System.out.println(cnt);
 		return (cnt % 2 == 1);
 	}
 	
 	private static boolean goesThrough(Polyline2D p2d, Point2D point1, Point2D point2) {
+		
 		double a = (point1.getY() - point1.getY())/(point1.getX() - point1.getX());
 		double b = point1.getY() - a * point1.getX();
 		for (int i = 0; i < p2d.vertices().size(); i++) {
-			if (a*p2d.getVertex(i).getX() + b == p2d.getVertex(i).getY() && ((p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) || (p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) )) {
-				
+			if (a*p2d.getVertex(i).getX() + b == p2d.getVertex(i).getY() && ((p2d.getVertex(i).getX() < point1.getX() && p2d.getVertex(i).getX() > point2.getX()) || (p2d.getVertex(i).getX() > point1.getX() && p2d.getVertex(i).getX() < point2.getX()) )) {
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	public static boolean areIntersect(Point2D p0, Point2D p1, Point2D p2, Point2D p3) {
