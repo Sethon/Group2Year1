@@ -78,7 +78,7 @@ public class CartesianPanel extends JPanel {
 		this.polyPanel = polyline;
 	}
 	
-	public JScrollPane getPolyline(){
+	public JPanel getPolyline(){
 		return polylinePanel();
 	}
 	
@@ -109,7 +109,6 @@ public class CartesianPanel extends JPanel {
 	private JButton polyButton(int x){
 		JButton polyButton = new JButton("Info");
 		polyButton.setName(x+"");
-		
 		polyButton.addActionListener(new InfoButtonListener());
 		return polyButton;
 	}
@@ -136,14 +135,14 @@ public class CartesianPanel extends JPanel {
 	}
 	
 	
-	private JScrollPane polylinePanel(){	
+	private JPanel polylinePanel(){	
 		polyPanel.setPreferredSize(new Dimension(280, 500));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
-		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		p.setPreferredSize(new Dimension(290,500));
-		p.revalidate();
-		return p;
+//		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+//	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//		p.setPreferredSize(new Dimension(290,500));
+//		p.revalidate();
+		return polyPanel;
 	}
 	
 	
