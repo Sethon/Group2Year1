@@ -136,7 +136,7 @@ public class CartesianPanel extends JPanel {
 		for(int x = 0; x < lines.size(); x++){
 			JPanel p = new JPanel();
 			p.setLayout(new GridLayout(1,3));
-			p.add(new JLabel("No. " + (lineNumbers.get(x)) + ":"));
+			p.add(new JLabel("No. " + (lineNumbers.get(x))));
 			p.add(polyButton(x));
 			p.add(deleteButton(x));
 			p.setName("" + x);

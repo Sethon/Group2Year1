@@ -24,7 +24,7 @@ public class Test {
 		points.add(p8);
 		points.add(p9);
 		Polyline2D p2d = new Polyline2D(points);
-		Point2D point = new Point2D(3,5);
+		Point2D point = new Point2D(10,10);
 		if(Helper.contains(p2d, point))
 			System.out.println("It contains the point");
 		else System.out.println("It does not contain the point.");
