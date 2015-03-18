@@ -1,46 +1,41 @@
 package Model;
 
+import java.util.Comparator;
 
-public class Point2D implements Point, Comparable<Object> {
-	private double[] coordinates;
+
+public class Point2D implements Point {
+	
+	private double x;
+	private double y;
 	private Edge edge;
 	private Edge top;
 	private Edge bottom;
 	
 	public Point2D(double x, double y) {
-		coordinates = new double[2];
-		coordinates[0] = x;
-		coordinates[1] = y;
+		this.x = x;
+		this.y = y;
+		edge = null;
 	}
 	public Point2D(double x, double y, Edge e) {
-		coordinates = new double[2];
-		coordinates[0] = x;
-		coordinates[1] = y;
+		this.x = x;
+		this.y = y;
 		edge = e;
 	}
 	public Point2D(double x, double y, Edge t, Edge b) {
-		coordinates = new double[2];
-		coordinates[0] = x;
-		coordinates[1] = y;
+		this.x = x;
+		this.y = y;
 		top = t; bottom = b;
 	}
-	public Point2D() {
-		coordinates = new double[2];
-		coordinates[0] = Math.pow(-1,Math.round(Math.random())) * (RANGE * Math.random());
-		coordinates[1] = Math.pow(-1,Math.round(Math.random())) * (RANGE * Math.random());
-	}
-	public double[] coordinates() {
-		return coordinates;
-	}
+	
 	public double getX() {
-		return coordinates[0];
+		return this.x;
 	}
 	public double getY() {
-		return coordinates[1];
+		return this.y;
 	}
 	
 	public String toString() {
-		return "[" + coordinates[0] + ", " + coordinates[1] + "]";
+		return "[" + this.x + ", " + this.y + "]";
 	}
 	
 	public void setEdge(Edge e) {
@@ -59,26 +54,35 @@ public class Point2D implements Point, Comparable<Object> {
 		return bottom;
 	}
 	
-	public boolean equals(Object o) {
-		Point2D p2d = (Point2D) o;
-		return (p2d.getX() == getX()) && (p2d.getY() == getY());
+//	public boolean equals(Object o) {
+//		Point2D p2d = (Point2D) o;
+//		return (p2d.getX() == x) && (p2d.getY() == y);
+//	}
+	
+	public Point2D clone() {
+		return new Point2D(x,y);
 	}
-
-	public int compareTo(Object o) {
-		Point2D p2d = (Point2D) o;
-		if (getX() > p2d.getX()) {
-			return 1;
-		}
-		else if (edge() == null)
-			return 0;
-		else if (this.equals(edge.left()) && p2d.equals(edge.right()))
-			return 1;
-		else {
-			return -1;
+	public double[] coordinates() {
+		double[] co = {x,y};
+		return co;
+	}
+	
+	static class XComparator implements Comparator<Point2D> {
+		
+		public int compare(Point2D a, Point2D b) {
+			if (a.x > b.x) return 1;
+			else if (a.x == b.x) return 0;
+			else return -1;
 		}
 	}
 	
-	public Point2D clone() {
-		return new Point2D(coordinates[0], coordinates[1]);
+	static class YComparator implements Comparator<Point2D> {
+
+		public int compare(Point2D a, Point2D b) {
+			if (a.y > b.y) return 1;
+			else if (a.equals(b)) return 0;
+			else return -1;
+		}
 	}
+
 }

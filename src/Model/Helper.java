@@ -11,7 +11,7 @@ public class Helper {
 	}
 	
 	public static void sortByX(ArrayList<Point2D> points) {
-		//Collections.sort(points, new XComparator());
+		Collections.sort(points, new XComparator());
 	}
 	
 	public static void removeDuplicatePoints(ArrayList<Point2D> points) {
@@ -28,23 +28,15 @@ public class Helper {
 		}
 	}
 
-	static class YComparator implements Comparator<Point2D> {
+	static class XComparator implements Comparator<Point2D> {
 
 		public int compare(Point2D a, Point2D b) {
-			if (a.getY() > b.getY()) return -1;
-			else if (a.getY() == b.getY()) return 0;
-			else return 1;
+			if (a.getX() > b.getX()) return 1;
+			else if (a.getX() == b.getX()) return 0;
+			else return -1;
 		}
 	}
-
-	static class EdgeComparator implements Comparator<Edge> {
-
-		public int compare(Edge a, Edge b) {
-			if (a.getY() > b.getY()) return -1;
-			else if (a.getY() == b.getY()) return 0;
-			else return 1;
-		}
-	}
+	
 	
 	public static Point2D intersect(Edge edge1, Edge edge2, Point2D p, boolean right) {
 		if (edge1 == null || edge2 == null) {
@@ -52,10 +44,10 @@ public class Helper {
 			return null;
 		}
 
-		Point2D p0 = edge1.left();
-		Point2D p1 = edge1.right();
-		Point2D p2 = edge2.left();
-		Point2D p3 = edge2.right();
+		Point2D p0 = edge1.active();
+		Point2D p1 = edge1.inactive();
+		Point2D p2 = edge2.active();
+		Point2D p3 = edge2.inactive();
 		
 		//one of segments or both are vertical
 		
