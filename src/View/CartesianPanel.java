@@ -300,20 +300,25 @@ public class CartesianPanel extends JPanel {
 	
 	private class ClickListener extends MouseAdapter {
 		public void mouseReleased(MouseEvent e) {
-			if (modificationMode) {
-				lines.get(lines.size() - 1).addPoint(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale));
-//System.out.println("Clicking");
-				repaint();
-			} else {
-				modificationMode = true;
-				ArrayList<Point2D> tmp = new ArrayList<Point2D>();
-				tmp.add(new Point2D(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale)));
-				lines.add(new Polyline2D(tmp));
-				count++;
-				lineNumbers.add(count);
-//System.out.println("Clicking new one");
-				requestFocusInWindow();
-				repaint();
+			if(MainFrame.drawButton.isSelected()){
+				if (modificationMode) {
+					lines.get(lines.size() - 1).addPoint(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale));
+	//System.out.println("Clicking");
+					repaint();
+				} else {
+					modificationMode = true;
+					ArrayList<Point2D> tmp = new ArrayList<Point2D>();
+					tmp.add(new Point2D(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale)));
+					lines.add(new Polyline2D(tmp));
+					count++;
+					lineNumbers.add(count);
+	//System.out.println("Clicking new one");
+					requestFocusInWindow();
+					repaint();
+				}
+			}
+			else if(MainFrame.dragButton.isSelected()){
+				//if(){
 			}
 		}
 	}

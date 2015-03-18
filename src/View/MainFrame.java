@@ -61,8 +61,8 @@ public class MainFrame {
 	
 	private JButton useMethod;
 	private ButtonGroup methodGroup;
-	private JRadioButton drawButton;
-	private JRadioButton dragButton;
+	public static JRadioButton drawButton;
+	public static JRadioButton dragButton;
 	private JRadioButton typeButton;
 	private JRadioButton loadButton;
 	
@@ -82,8 +82,7 @@ public class MainFrame {
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-		cartesian = new CartesianPanel();   
+        cartesian = new CartesianPanel();
                
         frame.add(optionPanel(), BorderLayout.WEST);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -244,6 +243,8 @@ public class MainFrame {
 		    tempPanel.add(yField);
 		    
 		    int result = JOptionPane.showConfirmDialog(null, tempPanel, "Please Enter X and Y Values of point #"+(i+1)+".", JOptionPane.OK_CANCEL_OPTION);
+		    while(xField.getText()==null || yField.getText() == null)
+		    	result = JOptionPane.showConfirmDialog(null, tempPanel, "Please Enter X and Y Values of point #"+(i+1)+". These can't be empty.", JOptionPane.OK_CANCEL_OPTION);
 		    if (result == JOptionPane.OK_OPTION) {
 		         Point2D point = new Point2D(Double.parseDouble(xField.getText()), Double.parseDouble(yField.getText()));
 		         pol.addPoint(point);
@@ -251,7 +252,7 @@ public class MainFrame {
 		    if (result == JOptionPane.CANCEL_OPTION) 
 		    	break;
 		}
-//		CartesianPanel.addLine(pol);
+		cartesian.addLine(pol);
 	}
 	
 	private void loadMethod() {
