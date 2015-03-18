@@ -11,18 +11,27 @@ public class BentleyOttmann {
 	private ArrayList<Point2D> vertices;
 	
 	public BentleyOttmann(Polyline2D pl1, Polyline2D pl2) {
-		lines = new Polyline2D[2];
+		/*lines = new Polyline2D[2];
 		lines[0] = pl1; lines[1] = pl2;
 		vertices = pl1.vertices();
 		vertices.addAll(pl2.vertices());
 		edges = pl1.edges();
-		edges.addAll(pl2.edges());
+		edges.addAll(pl2.edges());*/
 		//Helper.sortByX(vertices); don't need it
-		xStructure = new XStructure(vertices.get(0));
-		BinaryTreeNode<Point2D> xRoot = xStructure.root();
-		for (int i = 1; i < vertices.size(); i++) {
-			xStructure.add(xRoot, vertices.get(i));
+		xStructure = new XStructure(pl1.vertices().get(1));
+		//BinaryTreeNode<Point2D> xRoot = xStructure.root();
+		for (int i = 1; i < pl1.vertices().size(); i++) {
+			xStructure.add(xStructure.root(), pl1.vertices().get(i));
 		}
+		for (int i = 0; i < pl2.vertices().size(); i++) {
+			xStructure.add(xStructure.root(), pl1.vertices().get(i));
+		}
+		/*for (int i = 1; i < pl1.edges().size(); i++) {
+			xStructure.add(xStructure.root(), pl1.vertices().get(i));
+		}
+		for (int i = 1; i < pl2.edges().size(); i++) {
+			xStructure.add(xStructure.root(), pl1.vertices().get(i));
+		}*/
 	}
 	
 	public ArrayList<Point2D> bentley() {
@@ -37,7 +46,7 @@ public class BentleyOttmann {
 			//System.out.println(currentPoint);
 			Edge currentEdge = currentPoint.edge(); 
 			//BinaryTreeNode<Point2D> yRoot = yStructure.root(); ???
-			Point2D intersection; //???
+			//Point2D intersection; ???
 			if (currentEdge != null) {
 				if (currentEdge.isLeft(currentPoint)) {
 					if (yStructure == null) {

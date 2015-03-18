@@ -43,18 +43,18 @@ public class XStructure implements BinaryTree<Point2D>{
 			n.setRightChild(n1);
 			n1.setParent(n);
 			size++;
-			if (!(isBalanced(root))) {
+			/*if (!(isBalanced(root))) {
 				balanceAfterAdd(n1);
-			}
+			}*/
 		} 
 		else if (e.getX() < n.element().getX() && n.leftChild() == null) { 
 			BinaryTreeNode<Point2D> n1 = new BinaryTreeNode<Point2D>(e);
 			n.setLeftChild(n1);
 			n1.setParent(n);
 			size++;
-			if (!(isBalanced(root))) {
+			/*if (!(isBalanced(root))) {
 				balanceAfterAdd(n1);
-			}
+			}*/
 		}
 		else if (e.getX() >= n.element().getX() && n.rightChild() != null) {
 			add(n.rightChild(), e);
@@ -399,9 +399,9 @@ public class XStructure implements BinaryTree<Point2D>{
 
 			}
 			m = null;
-			if (!(isBalanced(root))) {
+			/*if (!(isBalanced(root))) {
 				//balanceAfterRemove(actionNode);
-			}
+			}*/
 			return element;
 		}
 	}

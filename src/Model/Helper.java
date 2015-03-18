@@ -38,21 +38,30 @@ public class Helper {
 	}
 	
 	public static Point2D intersect(Edge edge1, Edge edge2, Point2D p, boolean right) {
-		if (edge1 == null || edge2 == null){
+		if (edge1 == null || edge2 == null) {
+			System.out.println("ONE EDGE IS NULL");
 			return null;
 		}
 
 		Point2D p0 = edge1.left();
+		System.out.println(p0);
 		Point2D p1 = edge1.right();
+		System.out.println(p1);
 		Point2D p2 = edge2.left();
+		System.out.println(p2);
 		Point2D p3 = edge2.right();
+		System.out.println(p3);
 		
 		//one of segments or both are vertical
 		
 		if ((p1.getX() != p0.getX()) && (p3.getX() != p2.getX())) {
+			System.out.println("TWO NONVERTICAL LINES");
+			
 			//a = dy/dx
 			double a1 = (p1.getY() - p0.getY())/(p1.getX() - p0.getX());
+			System.out.println(a1);
 			double a2 = (p3.getY() - p2.getY())/(p3.getX() - p2.getX());
+			System.out.println(a2);
 			double b1 = p1.getY() - a1 * p1.getX();
 			double b2 = p3.getY() - a2 * p3.getX();
 			
@@ -64,6 +73,7 @@ public class Helper {
 			else if (((a1 - a2) == 0) && ((b2 - b1) == 0)) {
 				return null;
 			} else {
+				
 				double xi = (b2 - b1)/(a1 - a2);
 				boolean fulfilled;
 				if (right) {
