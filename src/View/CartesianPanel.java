@@ -5,6 +5,15 @@ import java.awt.Adjustable;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.BasicStroke;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -100,8 +109,16 @@ public class CartesianPanel extends JPanel {
 	private class InfoButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String msg = ("Content:\nContent2:" + ((JButton) e.getSource()).getName());
-		    JOptionPane optionPane = new JOptionPane();
+			Icon myPicture = null;
+			try{
+				myPicture = new ImageIcon(ImageIO.read( MainFrame.class.getResourceAsStream( "pandieandie-polygon-logo.png" ) ) );
+			}catch (IOException ex) {
+			       // LOG or output exception
+			       System.out.println(ex);
+			    } finally {}
+			JOptionPane optionPane = new JOptionPane();
 		    optionPane.setMessage(msg);
+		    optionPane.setIcon(myPicture);
 		    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
 		    JDialog dialog = optionPane.createDialog(null, "Info");
 		    dialog.setVisible(true);
@@ -113,8 +130,6 @@ public class CartesianPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				lines.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
-				polyPanel.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
-//System.out.println("Deleted");
 				updatePanel();
 				polyPanel.repaint();
 //System.out.println("Updated");
@@ -142,7 +157,7 @@ public class CartesianPanel extends JPanel {
 			polyPanel.add(scroller, BorderLayout.EAST);
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(30,1));
-System.out.println(lines.size());
+//System.out.println(lines.size());
 		for(int x = scroller.getValue(); x < lines.size(); x++){
 			if(x==scroller.getValue()+30)
 				break;
@@ -158,7 +173,7 @@ System.out.println(lines.size());
 		polyPanel.revalidate();
 		polyPanel.invalidate();
 		polyPanel.repaint();
-System.out.println("Printed" + scroller.getValue());
+//System.out.println("Printed" + scroller.getValue());
 		
 	}
 	
@@ -235,6 +250,7 @@ System.out.println("Printed" + scroller.getValue());
 	
 	public void addLine(Polyline2D pl) {
 		lines.add(pl);
+		updatePanel();
 		repaint();
 	}
 	
@@ -249,6 +265,7 @@ System.out.println("Printed" + scroller.getValue());
 	}
 	
 	public void removeLine(int i) {
+System.out.println(lines.size());
 		lines.remove(i);
 		repaint();
 	}

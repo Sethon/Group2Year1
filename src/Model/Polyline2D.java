@@ -14,8 +14,8 @@ public class Polyline2D implements Polyline<Point2D> {
 	}
 	
 	public Polyline2D() {
-/*		vertices = new ArrayList<Point2D>();
-		for(int i = 0; i < DEF_VNUM; i++) {
+		vertices = new ArrayList<Point2D>();
+/*		for(int i = 0; i < DEF_VNUM; i++) {
 			vertices.add(new Point2D());
 		}
 		makeEdges();

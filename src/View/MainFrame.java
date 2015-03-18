@@ -213,11 +213,13 @@ public class MainFrame {
 	
 	private void typeMethod(){
 		Polyline2D pol = new Polyline2D();
-for(int i = 0; i<pol.vertices().size(); i++)
-System.out.println("point "+i+": x= "+ pol.getVertex(i).getX()+"   y= "+pol.getVertex(i).getY());
-		String value = JOptionPane.showInputDialog("How many points does your polytope need?", null);
+//for(int i = 0; i<pol.vertices().size(); i++)
+//System.out.println("point "+i+": x= "+ pol.getVertex(i).getX()+"   y= "+pol.getVertex(i).getY());
+		String value = "";
+		while("".equals(value))
+			value = JOptionPane.showInputDialog("How many points does your polytope need?", null);
 		int val = Integer.parseInt(value);
-System.out.println(val);
+//System.out.println(val);
 		for(int i = 0; i<val; i++){
 			JPanel tempPanel = new JPanel();
 			JTextField xField = new JTextField(20);
@@ -227,20 +229,22 @@ System.out.println(val);
 		    tempPanel.add(Box.createHorizontalStrut(15));
 		    tempPanel.add(new JLabel("y:"));
 		    tempPanel.add(yField);
-		    
-		    int result = JOptionPane.showConfirmDialog(null, tempPanel, "Please Enter X and Y Values of point #"+(i+1)+".", JOptionPane.OK_CANCEL_OPTION);
+		    int result = 10;
+
+		    while(xField.getText().equals("") || yField.getText().equals(""))
+		    	 result = JOptionPane.showConfirmDialog(null, tempPanel, "Please Enter X and Y Values of point #"+(i+1)+".", JOptionPane.OK_CANCEL_OPTION);
 		   
 		    if (result == JOptionPane.OK_OPTION) {
 		         Point2D point = new Point2D(Double.parseDouble(xField.getText()), Double.parseDouble(yField.getText()));
- System.out.println("x="+point.getX()+"   y="+point.getY());
+ //System.out.println("x="+point.getX()+"   y="+point.getY());
 		         pol.addPoint(point);
 		      }
 		    if (result == JOptionPane.CANCEL_OPTION) 
 		    	break;
 		}
-		
-for(int i = 0; i<pol.vertices().size(); i++)
-System.out.println("point "+i+": x= "+ pol.getVertex(i).getX()+"   y= "+pol.getVertex(i).getY());
+		pol.addPoint(pol.getVertex(0));
+//for(int i = 0; i<pol.vertices().size(); i++)
+//System.out.println("point "+i+": x= "+ pol.getVertex(i).getX()+"   y= "+pol.getVertex(i).getY());
 		cartesian.addLine(pol);
 	}
 	
