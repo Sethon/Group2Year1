@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
 import javax.swing.JPanel;
 //import javax.swing.JScrollPane;
 //import javax.swing.ScrollPaneConstants;
@@ -60,6 +62,7 @@ public class CartesianPanel extends JPanel {
 	private int						currX;
 	private int						currY;
 	private boolean					modificationMode;
+	private JScrollBar 				scroller = new JScrollBar();
 	
 	private JPanel polyPanel;
 	
@@ -130,6 +133,7 @@ public class CartesianPanel extends JPanel {
 	
 	private void updatePanel(){
 		polyPanel.removeAll();
+		polyPanel.add(scroller, BorderLayout.EAST);
 System.out.println(lines.size());
 		for(int x = 0; x < lines.size(); x++){
 			JPanel p = new JPanel();
@@ -138,7 +142,7 @@ System.out.println(lines.size());
 			p.add(polyButton(x));
 			p.add(deleteButton(x));
 			p.setName("" + x);
-			polyPanel.add(p);
+			polyPanel.add(p, BorderLayout.WEST);
 			polyPanel.revalidate();
 			polyPanel.invalidate();
 			polyPanel.repaint();
@@ -148,11 +152,15 @@ System.out.println("Printed");
 	
 	
 	private JPanel polylinePanel(){	
-		polyPanel.setPreferredSize(new Dimension(280, 450));
+		
+		scroller.setPreferredSize(new Dimension(15,700));
+//		polyPanel.setPreferredSize(new Dimension(280, 450));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
+		polyPanel.
 //		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 //	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 //		p.setPreferredSize(new Dimension(290,500));
+		//polyPanel.add(scroller, BorderLayout.EAST);
 		polyPanel.revalidate();
 		return polyPanel;
 	}
@@ -314,7 +322,7 @@ System.out.println("Printed");
 					repaint();
 				}
 			}
-			else if(MainFrame.dragButton.isSelected()){
+			else if(MainFrame.dragItem.isSelected()){
 				//if(){
 			}
 		}

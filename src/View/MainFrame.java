@@ -45,11 +45,7 @@ public class MainFrame {
 	
 //	private JPanel polyPanel;
 	private JPanel optionPanel;
-	private JPanel panel;
-	private JPanel panel1;
-	private JPanel panel2;
 	
-	private JScrollPane scrollFrame;
 	private JTextArea field;
 	private JTabbedPane tabbedPane;
 	private ButtonGroup group;
@@ -57,21 +53,15 @@ public class MainFrame {
 	private JButton run;
 
 	public static JRadioButtonMenuItem drawItem;
-	private JRadioButtonMenuItem dragItem;
+	public static JRadioButtonMenuItem dragItem;
 	private JRadioButtonMenuItem typeItem;
 	private JRadioButtonMenuItem loadItem;
 	
-	private JRadioButton lengthPolyLineButton;
-	private JRadioButton areaPolylineButton;
-	private JRadioButton bentleyButton;
-	private JRadioButton intersectButton;
+	private JRadioButtonMenuItem intersectItem;
+	private JRadioButtonMenuItem polylineLengthItem;
+	private JRadioButtonMenuItem areaItem;
+	private JRadioButtonMenuItem bentleyItem;
 	
-	private JButton useMethod;
-	private ButtonGroup methodGroup;
-	public static JRadioButton drawButton;
-	public static JRadioButton dragButton;
-	private JRadioButton typeButton;
-	private JRadioButton loadButton;
 	
 	
 	public MainFrame(){
@@ -91,6 +81,7 @@ public class MainFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cartesian = new CartesianPanel();
         
+        //The menuBar starts here
         JMenuBar menuBar = new JMenuBar();
         JMenu methodsMenu = new JMenu("Methods");
         drawItem = new JRadioButtonMenuItem("Draw");
@@ -114,14 +105,20 @@ public class MainFrame {
         loadItem.addActionListener(new MethodListener());
         
         JMenu calculationsMenu = new JMenu("Calculations");
-        JMenuItem intersectItem = new JMenuItem("Intersect");
-        JMenuItem polylineLengthItem = new JMenuItem("Length of polyline");
-        JMenuItem areaItem = new JMenuItem("area of polytope");
-        JMenuItem bentleyItem = new JMenuItem("Bentley-Ottman");
+        intersectItem = new JRadioButtonMenuItem("Intersect");
+        polylineLengthItem = new JRadioButtonMenuItem("Length of polyline");
+        areaItem = new JRadioButtonMenuItem("area of polytope");
+        bentleyItem = new JRadioButtonMenuItem("Bentley-Ottman");
         calculationsMenu.add(intersectItem);
         calculationsMenu.add(polylineLengthItem);
         calculationsMenu.add(areaItem);
         calculationsMenu.add(bentleyItem);
+        
+        ButtonGroup calculationGroup = new ButtonGroup();
+        calculationGroup.add(intersectItem);
+        calculationGroup.add(polylineLengthItem);
+        calculationGroup.add(areaItem);
+        calculationGroup.add(bentleyItem);
         menuBar.add(calculationsMenu);
         intersectItem.addActionListener(new ButtonListener());
         polylineLengthItem.addActionListener(new ButtonListener());
@@ -129,6 +126,7 @@ public class MainFrame {
         bentleyItem.addActionListener(new ButtonListener());
         
         frame.setJMenuBar(menuBar);
+        //MenuBar ends here
                
         frame.add(optionPanel(), BorderLayout.WEST);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -150,69 +148,10 @@ public class MainFrame {
 		optionPanel.setLayout(new GridLayout(1,1));
 		
 		optionPanel.add(cartesian.getPolyline());
-//		optionPanel.add(inputMethod(), BorderLayout.CENTER);
-//		optionPanel.add(radioButtonPanel(), BorderLayout.SOUTH);
 		optionPanel.setFocusable(true);
 		return optionPanel;
 	}
-/*
-	private JPanel inputMethod(){
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(5,1));
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Methods"));
-		
-		drawButton = new JRadioButton("Click coordinates");
-		dragButton = new JRadioButton("Drag coordinates");
-		typeButton = new JRadioButton("Type coordinates");
-		loadButton = new JRadioButton("Load data type");
 
-		drawButton.setSelected(true);
-		
-		methodGroup = new ButtonGroup();
-		methodGroup.add(drawButton);
-		methodGroup.add(dragButton);
-		methodGroup.add(typeButton);
-		methodGroup.add(loadButton);
-		useMethod = new JButton("Use chosen method");
-		useMethod.addActionListener(new MethodListener());
-		
-		panel.add(drawButton);
-		panel.add(dragButton);
-		panel.add(typeButton);
-		panel.add(loadButton);
-		panel.add(useMethod);
-		
-		return panel;
-	}
-	
-	private JPanel radioButtonPanel(){
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(5,1));	
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Calculations"));	
-		
-		intersectButton = new JRadioButton("Check intersection");
-		lengthPolyLineButton = new JRadioButton("Calculate length of Polyline");
-		areaPolylineButton = new JRadioButton("Calculate area of Polytope");
-		bentleyButton = new JRadioButton("Run Bentley-Ottmann algorithm");		
-		
-		group = new ButtonGroup();
-		group.add(intersectButton);
-		group.add(lengthPolyLineButton);
-		group.add(areaPolylineButton);
-		group.add(bentleyButton);
-	
-		run = new JButton("Run");
-		run.addActionListener(new ButtonListener());		
-		
-		panel.add(intersectButton);
-		panel.add(lengthPolyLineButton);
-		panel.add(areaPolylineButton);
-		panel.add(bentleyButton);
-		panel.add(run);
-			
-		return panel;	
-	}
-*/
 
 	private class MethodListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
@@ -229,14 +168,14 @@ public class MainFrame {
 	
 	private class ButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-          
-            if (intersectButton.isSelected()) {
+        	
+            if (intersectItem.isSelected()) {
                 intersect();
-            } else if (lengthPolyLineButton.isSelected()) {
+            } else if (polylineLengthItem.isSelected()) {
                 length();
-            } else if (areaPolylineButton.isSelected()) {
+            } else if (areaItem.isSelected()) {
             	area();
-            } else if (bentleyButton.isSelected()) {
+            } else if (bentleyItem.isSelected()) {
                 bentley();
             }
             
