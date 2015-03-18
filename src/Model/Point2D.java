@@ -69,10 +69,16 @@ public class Point2D implements Point, Comparable<Object> {
 		if (getX() > p2d.getX()) {
 			return 1;
 		}
-		else if (this.equals(p2d)) {
+		else if (edge() == null)
 			return 0;
-		} else {
+		else if (this.equals(edge.left()) && p2d.equals(edge.right()))
+			return 1;
+		else {
 			return -1;
 		}
+	}
+	
+	public Point2D clone() {
+		return new Point2D(coordinates[0], coordinates[1]);
 	}
 }

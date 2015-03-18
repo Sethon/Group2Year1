@@ -32,7 +32,7 @@ public class Polyline2D implements Polyline<Point2D> {
 	public void makeEdges() {
 		edges = new ArrayList<>();
 		for (int i = 0; i < vertices.size()-1; i++) {
-			Point2D a = vertices.get(i); Point2D b = vertices.get(i+1);
+			Point2D a = vertices.get(i).clone(); Point2D b = vertices.get(i+1).clone();
 			Edge e;
 			if (a.getX() < b.getX()) {
 				e = new Edge(a,b);

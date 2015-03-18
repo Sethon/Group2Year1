@@ -1,11 +1,13 @@
 package Model;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class BentleyOttmann {
 
-	private YStructure yStructure;
-	private XStructure xStructure;
+	private TreeMap<Point2D, Point2D> xStructure;
+	private TreeMap<Point2D, Point2D> yStructure;
 	private Polyline2D[] lines;
 	private ArrayList<Edge> edges;
 	private ArrayList<Point2D> vertices;
@@ -18,14 +20,18 @@ public class BentleyOttmann {
 		edges = pl1.edges();
 		edges.addAll(pl2.edges());*/
 		//Helper.sortByX(vertices); don't need it
-		xStructure = new XStructure(pl1.vertices().get(1));
+		xStructure = new TreeMap<>();
+		yStructure = new TreeMap<>(new Helper.YComparator());
 		//BinaryTreeNode<Point2D> xRoot = xStructure.root();
-		for (int i = 1; i < pl1.vertices().size(); i++) {
-			xStructure.add(xStructure.root(), pl1.vertices().get(i));
+		for (int i = 0; i < pl1.edges().size(); i++) {
+			xStructure.put(pl1.edges().get(i).left(), pl1.edges().get(i).left());
+			xStructure.put(pl1.edges().get(i).right(), pl1.edges().get(i).right());
 		}
-		for (int i = 0; i < pl2.vertices().size(); i++) {
-			xStructure.add(xStructure.root(), pl1.vertices().get(i));
+		for (int i = 0; i < pl2.edges().size(); i++) {
+			xStructure.put(pl2.edges().get(i).left(), pl2.edges().get(i).left());
+			xStructure.put(pl2.edges().get(i).right(), pl2.edges().get(i).right());
 		}
+		System.out.println(xStructure);
 		/*for (int i = 1; i < pl1.edges().size(); i++) {
 			xStructure.add(xStructure.root(), pl1.vertices().get(i));
 		}
@@ -36,12 +42,14 @@ public class BentleyOttmann {
 	
 	public ArrayList<Point2D> bentley() {
 		
-		yStructure = null;
 		ArrayList<Point2D> intersections = new ArrayList<>();
 		
 		while (!(xStructure.isEmpty())) {
-			//System.out.println(xStructure.size());
-			Point2D currentPoint = xStructure.removeMin();
+			
+			System.out.println(xStructure + " x");
+			System.out.println(yStructure + " y");
+			Point2D currentPoint = xStructure.firstKey();
+			xStructure.remove(currentPoint);
 			//System.out.println(xStructure.size());
 			//System.out.println(currentPoint);
 			Edge currentEdge = currentPoint.edge(); 
@@ -49,75 +57,89 @@ public class BentleyOttmann {
 			//Point2D intersection; ???
 			if (currentEdge != null) {
 				if (currentEdge.isLeft(currentPoint)) {
-					if (yStructure == null) {
-						yStructure = new YStructure(currentPoint);
-					} else {
-						yStructure.add(yStructure.root(), currentPoint);
-					}
-					Edge successor = yStructure.successor(currentPoint);
-					Edge predecessor = yStructure.predecessor(currentPoint);
-					if (successor != null) {
-						Point2D interPoint = Helper.intersect(successor, currentEdge, currentPoint, true);
+					System.out.println("inside left :" + currentPoint);
+					yStructure.put(currentPoint, currentPoint);
+					System.out.println(yStructure + " yLeft");
+					Point2D suc = null;
+					Point2D pred = null;
+					if ((suc = yStructure.higherKey(currentPoint)) != null) {
+						Point2D interPoint = Helper.intersect(suc.edge(), currentEdge, currentPoint, true);
 						if (interPoint != null) {
-							xStructure.add(xStructure.root(), interPoint);
+							System.out.println("yo");
+							xStructure.put(interPoint, interPoint);
 						}
 					}
-					if (predecessor != null) {
-						Point2D interPoint = Helper.intersect(predecessor, currentEdge, currentPoint, true);
+					if ((pred = yStructure.lowerKey(currentPoint)) != null) {
+						Point2D interPoint = Helper.intersect(pred.edge(), currentEdge, currentPoint, true);
 						if (interPoint != null) {
-							xStructure.add(xStructure.root(), interPoint);
+							System.out.println("yo");
+							xStructure.put(interPoint, interPoint);
 						}
 					}
-					if (successor != null && successor != null) {
-						Point2D interPoint = Helper.intersect(predecessor, successor, currentPoint, true);
+					if (suc != null && pred != null) {
+						Point2D interPoint = Helper.intersect(pred.edge(), suc.edge(), currentPoint, true);
 						if (interPoint != null) {
-							xStructure.remove(xStructure.root(), interPoint);
+							System.out.println("yo");
+							xStructure.remove(interPoint);
 						}
 					}
 				} else {
-					Edge successor = yStructure.successor(currentPoint);
-					Edge predecessor = yStructure.predecessor(currentPoint);
-					yStructure.remove(yStructure.root(), currentPoint);
-					if (successor != null && successor != null) {
+					System.out.println("inside right :" + currentPoint);
+					System.out.println(yStructure + " yRight");
+					Point2D suc = null;
+					Point2D pred = null;
+					Edge successor = null;
+					Edge predecessor = null;
+					if ((suc = yStructure.higherKey(currentPoint)) != null) {
+						successor = suc.edge();
+					}
+					if ((pred = yStructure.lowerKey(currentPoint)) != null) {
+						predecessor = pred.edge();
+					}
+					yStructure.remove(currentPoint);
+					if (suc != null && pred != null) {
 						Point2D interPoint = Helper.intersect(predecessor, successor, currentPoint, true);
 						if (interPoint != null) {
-							xStructure.add(xStructure.root(), interPoint);
+							System.out.println("yo");
+							xStructure.put(interPoint, interPoint);
 						}
 					}
 				}
 			} else {
 				intersections.add(currentPoint);
-				System.out.println("BLAAAH");
+				System.out.println("inside else");
 				Edge top = currentPoint.top();
 				Edge bottom = currentPoint.bottom();
-				Edge successorTop = yStructure.successor(top.left());
-				Edge predecessorBottom = yStructure.predecessor(bottom.left());
-				if (successorTop != null) {
-					Point2D interPoint = Helper.intersect(bottom, successorTop, currentPoint, true);
+				Point2D successorTop = null;
+				Point2D predecessorBottom = null;
+				if ((successorTop = yStructure.higherKey(top.left()))!= null) {
+					Point2D interPoint = Helper.intersect(bottom, successorTop.edge(), currentPoint, true);
 					if (interPoint != null) {
-						xStructure.add(xStructure.root(), interPoint);
+						System.out.println("yo");
+						xStructure.put(interPoint, interPoint);
+					}
+				}
+				if ((predecessorBottom = yStructure.lowerKey(bottom.left())) != null) {
+					Point2D interPoint = Helper.intersect(top, predecessorBottom.edge(), currentPoint, true);
+					if (interPoint != null) {
+						System.out.println("yo");
+						xStructure.put(interPoint, interPoint);
+					}
+				}
+				yStructure.remove(top.left());
+				yStructure.remove(bottom.left());
+				yStructure.put(bottom.right(), top.right());
+				yStructure.put(bottom.right(), bottom.right());
+				if (successorTop != null) {
+					Point2D interPoint = Helper.intersect(top, successorTop.edge(), currentPoint, true);
+					if (interPoint != null) {
+						xStructure.remove(interPoint);
 					}
 				}
 				if (predecessorBottom != null) {
-					Point2D interPoint = Helper.intersect(top, predecessorBottom, currentPoint, true);
+					Point2D interPoint = Helper.intersect(bottom, predecessorBottom.edge(), currentPoint, true);
 					if (interPoint != null) {
-						xStructure.add(xStructure.root(), interPoint);
-					}
-				}
-				yStructure.remove(yStructure.root(), top.left());
-				yStructure.remove(yStructure.root(), bottom.left());
-				yStructure.add(yStructure.root(), top.right());
-				yStructure.add(yStructure.root(), bottom.right());
-				if (successorTop != null) {
-					Point2D interPoint = Helper.intersect(top, successorTop, currentPoint, true);
-					if (interPoint != null) {
-						xStructure.remove(xStructure.root(), interPoint);
-					}
-				}
-				if (predecessorBottom != null) {
-					Point2D interPoint = Helper.intersect(bottom, predecessorBottom, currentPoint, true);
-					if (interPoint != null) {
-						xStructure.remove(xStructure.root(), interPoint);
+						xStructure.remove(interPoint);
 					}
 				}
 			}
