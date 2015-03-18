@@ -115,14 +115,18 @@ public class MainFrame {
         
         JMenu calculationsMenu = new JMenu("Calculations");
         JMenuItem intersectItem = new JMenuItem("Intersect");
-        JMenuItem polylineLength = new JMenuItem("Length of polyline");
+        JMenuItem polylineLengthItem = new JMenuItem("Length of polyline");
         JMenuItem areaItem = new JMenuItem("area of polytope");
         JMenuItem bentleyItem = new JMenuItem("Bentley-Ottman");
         calculationsMenu.add(intersectItem);
-        calculationsMenu.add(polylineLength);
+        calculationsMenu.add(polylineLengthItem);
         calculationsMenu.add(areaItem);
         calculationsMenu.add(bentleyItem);
         menuBar.add(calculationsMenu);
+        intersectItem.addActionListener(new ButtonListener());
+        polylineLengthItem.addActionListener(new ButtonListener());
+        areaItem.addActionListener(new ButtonListener());
+        bentleyItem.addActionListener(new ButtonListener());
         
         frame.setJMenuBar(menuBar);
                
