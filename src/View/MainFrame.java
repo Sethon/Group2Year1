@@ -4,7 +4,6 @@
 package View;
 
 import java.awt.BorderLayout;
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,8 +12,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +40,7 @@ import javax.swing.*;
 import Model.Point2D;
 import Model.Polyline;
 import Model.Polyline2D;
+
 import java.awt.Toolkit;
 
 /**
@@ -166,7 +172,12 @@ public class MainFrame {
 			else if(typeItem.isSelected())
 				typeMethod();
 			else if(loadItem.isSelected())
-				loadMethod();
+				try {
+					loadMethod();
+				} catch (FileNotFoundException e) {
+System.out.println("File not found again");
+				} catch (IOException e)
+			{};
 		}
 	}
 	
@@ -252,38 +263,46 @@ public class MainFrame {
 		cartesian.addLine(pol);
 	}
 	
-	private void loadMethod() throws FileNotFoundException {
+	private void loadMethod() throws FileNotFoundException, IOException {
+		/*
+		InputStream in = new FileInputStream("/Group2Year1/src/View/dataFile.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder out = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            out.append(line);
+        }
+        System.out.println(out.toString());   //Prints the string content read from input stream
+        reader.close();
+        */
+		String dir = System.getProperty("user.dir");
+		String fn = "C:\\Users\\Joshua\\Desktop\\University\\dataFile.txt";
+		InputStream is = null;
 		ArrayList<String> array = new ArrayList<String>();
-		String data = "dataFile.txt";
-		FileReader fr = new FileReader(data);
-		BufferedReader bf = new BufferedReader(fr);
-		try {
-			while(bf.readLine() != null){
-				array.add(bf.readLine());
-			}
-		} catch (IOException e){}
-		boolean onlyDigits = true;
-		for(int i = 0; i<array.size(); i++)
-			if(array.get(i).matches(".*\\d.*"))
-			{}
-			else
-				onlyDigits = false;
-		if(onlyDigits)
-		{
-			Polyline2D pol = new Polyline2D();
-			for(int i = 0; i<array.size(); i+=2)
-			{
-				Point2D point = new Point2D(Integer.parseInt(array.get(i)), Integer.parseInt(array.get(i++)));
-				pol.addPoint(point);
-			}
-			cartesian.addLine(pol);
+		
+		try{
+		 // new input stream created
+		 BufferedReader buff = new BufferedReader(new FileReader(fn));
+		 
+		 
+		 // reads till the end of the stream
+		 while(buff.ready())
+		 {
+		 	array.add(buff.readLine());
+			
+		 }
+		 buff.close();
+		}catch(Exception e){
+		 
+		 // if any I/O error occurs
+		 e.printStackTrace();
+		}finally{
+		 
+		 if(is!=null)
+			is.close();
 		}
+		for(int i = 0; i<array.size(); i++)
+			System.out.println(array.get(i));
+		
 	}
 }
-
-
- 
-
-
-
-
