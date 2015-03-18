@@ -55,10 +55,8 @@ public class CartesianPanel extends JPanel {
 	
 	private int 					scale;
 	private ArrayList<Polyline2D> 	lines;
-	private ArrayList<Integer>      lineNumbers = new ArrayList<Integer>();
 	private int						x0;
 	private int						y0;
-	private int 					count;
 	private int						currX;
 	private int						currY;
 	private boolean					modificationMode;
@@ -107,7 +105,6 @@ public class CartesianPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				lines.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
-				lineNumbers.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
 				polyPanel.remove(Integer.parseInt((((JButton) e.getSource()).getName())));
 //System.out.println("Deleted");
 				updatePanel();
@@ -133,10 +130,11 @@ public class CartesianPanel extends JPanel {
 	
 	private void updatePanel(){
 		polyPanel.removeAll();
+System.out.println(lines.size());
 		for(int x = 0; x < lines.size(); x++){
 			JPanel p = new JPanel();
 			p.setLayout(new GridLayout(1,3));
-			p.add(new JLabel("No. " + (lineNumbers.get(x))));
+			p.add(new JLabel("No. " + (x+1)));
 			p.add(polyButton(x));
 			p.add(deleteButton(x));
 			p.setName("" + x);
@@ -144,12 +142,13 @@ public class CartesianPanel extends JPanel {
 			polyPanel.revalidate();
 			polyPanel.invalidate();
 			polyPanel.repaint();
+System.out.println("Printed");
 		}	
 	}
 	
 	
 	private JPanel polylinePanel(){	
-		polyPanel.setPreferredSize(new Dimension(280, 500));
+		polyPanel.setPreferredSize(new Dimension(280, 450));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
 //		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 //	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -300,7 +299,7 @@ public class CartesianPanel extends JPanel {
 	
 	private class ClickListener extends MouseAdapter {
 		public void mouseReleased(MouseEvent e) {
-			if(MainFrame.drawButton.isSelected()){
+			if(MainFrame.drawItem.isSelected()){
 				if (modificationMode) {
 					lines.get(lines.size() - 1).addPoint(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale));
 	//System.out.println("Clicking");
@@ -310,8 +309,6 @@ public class CartesianPanel extends JPanel {
 					ArrayList<Point2D> tmp = new ArrayList<Point2D>();
 					tmp.add(new Point2D(((double) (e.getX() - x0))/((double) scale), ((double) (-e.getY() + y0))/((double) scale)));
 					lines.add(new Polyline2D(tmp));
-					count++;
-					lineNumbers.add(count);
 	//System.out.println("Clicking new one");
 					requestFocusInWindow();
 					repaint();
