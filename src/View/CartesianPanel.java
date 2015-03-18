@@ -1,5 +1,9 @@
 package View;
 
+import java.awt.*;
+import java.awt.Adjustable;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -80,6 +84,7 @@ public class CartesianPanel extends JPanel {
 		addKeyListener(new KListener());
 		addMouseListener(new ClickListener());
 		addMouseMotionListener(new MovementListener());
+		scroller.addAdjustmentListener(new ScrollChange());
 		
 
 	}
@@ -133,21 +138,28 @@ public class CartesianPanel extends JPanel {
 	
 	private void updatePanel(){
 		polyPanel.removeAll();
-		polyPanel.add(scroller, BorderLayout.EAST);
+		if(lines.size()>=30)
+			polyPanel.add(scroller, BorderLayout.EAST);
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridLayout(30,1));
 System.out.println(lines.size());
-		for(int x = 0; x < lines.size(); x++){
+		for(int x = scroller.getValue(); x < lines.size(); x++){
+			if(x==scroller.getValue()+30)
+				break;
 			JPanel p = new JPanel();
 			p.setLayout(new GridLayout(1,3));
 			p.add(new JLabel("No. " + (x+1)));
 			p.add(polyButton(x));
 			p.add(deleteButton(x));
 			p.setName("" + x);
-			polyPanel.add(p, BorderLayout.WEST);
-			polyPanel.revalidate();
-			polyPanel.invalidate();
-			polyPanel.repaint();
-System.out.println("Printed");
-		}	
+			panel2.add(p);
+			}	
+		polyPanel.add(panel2, BorderLayout.WEST);
+		polyPanel.revalidate();
+		polyPanel.invalidate();
+		polyPanel.repaint();
+System.out.println("Printed" + scroller.getValue());
+		
 	}
 	
 	
@@ -156,7 +168,7 @@ System.out.println("Printed");
 		scroller.setPreferredSize(new Dimension(15,700));
 //		polyPanel.setPreferredSize(new Dimension(280, 450));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
-//		polyPanel.
+		polyPanel.setLayout(new BorderLayout());
 //		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 //	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 //		p.setPreferredSize(new Dimension(290,500));
@@ -328,7 +340,13 @@ System.out.println("Printed");
 		}
 	}
 	
-	
+	class ScrollChange implements AdjustmentListener {
+		  public void adjustmentValueChanged(AdjustmentEvent evt) {
+		    if (!evt.getValueIsAdjusting()) {
+		    	updatePanel();
+		    }
+		  }
+	}
 	
 	private class KListener implements KeyListener {
 		public void keyTyped(KeyEvent e) {
