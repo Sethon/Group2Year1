@@ -42,7 +42,7 @@ public class Test2 {
 
 		Polyline2D2 pl1 = new Polyline2D2(line1);
 		Polyline2D2 pl2 = new Polyline2D2(line2);
-		BentleyOttmann bo = new BentleyOttmann(pl1, pl2);
+		BentleyOttmann2 bo = new BentleyOttmann2(pl1, pl2);
 		//inOrder(bo.xStructure.root());
 		ArrayList<Point2D2> inters = bo.bentley();
 		System.out.println(inters);
