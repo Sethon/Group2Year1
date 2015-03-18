@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Comparator;
 
-public class Point2D implements Point, Comparable<Object> {
+public class Point2D2 implements Point, Comparable<Object> {
 	private Edge edgeNext;
 	private Edge edgePrev;
 	private Edge top;
@@ -11,18 +11,18 @@ public class Point2D implements Point, Comparable<Object> {
 	private double y;
 	boolean internal;
 	
-	public Point2D(double x, double y) {
+	public Point2D2(double x, double y) {
 		this.x = x;
 		this.y = y;
 		edgeNext = null;
 		edgePrev = null;
 	}
-	public Point2D(double x, double y, Edge e) {
+	public Point2D2(double x, double y, Edge e) {
 		this.x = x;
 		this.y = y;
 		edgeNext = e;
 	}
-	public Point2D(double x, double y, Edge t, Edge b) {
+	public Point2D2(double x, double y, Edge t, Edge b) {
 		this.x = x;
 		this.y = y;
 		top = t; bottom = b;
