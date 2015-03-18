@@ -156,7 +156,7 @@ System.out.println("Printed");
 		scroller.setPreferredSize(new Dimension(15,700));
 //		polyPanel.setPreferredSize(new Dimension(280, 450));
 		polyPanel.setBorder(new TitledBorder(new EtchedBorder(), "Polylines"));
-		polyPanel.
+//		polyPanel.
 //		JScrollPane p = new JScrollPane(polyPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 //	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 //		p.setPreferredSize(new Dimension(290,500));
