@@ -9,8 +9,12 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 
-
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -248,8 +252,32 @@ public class MainFrame {
 		cartesian.addLine(pol);
 	}
 	
-	private void loadMethod() {
-		
+	private void loadMethod() throws FileNotFoundException {
+		ArrayList<String> array = new ArrayList<String>();
+		String data = "dataFile.txt";
+		FileReader fr = new FileReader(data);
+		BufferedReader bf = new BufferedReader(fr);
+		try {
+			while(bf.readLine() != null){
+				array.add(bf.readLine());
+			}
+		} catch (IOException e){}
+		boolean onlyDigits = true;
+		for(int i = 0; i<array.size(); i++)
+			if(array.get(i).matches(".*\\d.*"))
+			{}
+			else
+				onlyDigits = false;
+		if(onlyDigits)
+		{
+			Polyline2D pol = new Polyline2D();
+			for(int i = 0; i<array.size(); i+=2)
+			{
+				Point2D point = new Point2D(Integer.parseInt(array.get(i)), Integer.parseInt(array.get(i++)));
+				pol.addPoint(point);
+			}
+			cartesian.addLine(pol);
+		}
 	}
 }
 

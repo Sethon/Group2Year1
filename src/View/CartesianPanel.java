@@ -108,7 +108,7 @@ public class CartesianPanel extends JPanel {
 	
 	private class InfoButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			String msg = ("Content:\nContent2:" + ((JButton) e.getSource()).getName());
+			String msg = ("Is the polytope closed? : "+closed(e)+"\nContent2:" + ((JButton) e.getSource()).getName()+1);
 			Icon myPicture = null;
 			try{
 				myPicture = new ImageIcon(ImageIO.read( MainFrame.class.getResourceAsStream( "pandieandie-polygon-logo.png" ) ) );
@@ -123,6 +123,14 @@ public class CartesianPanel extends JPanel {
 		    JDialog dialog = optionPane.createDialog(null, "Info");
 		    dialog.setVisible(true);
 		}	
+		//Not properly yet, always takes last one and goes out of bounds.
+		public String closed(ActionEvent e){
+			if(lines.get(Integer.parseInt(((JButton)e.getSource()).getName())).getVertex(0) == lines.get(Integer.parseInt(((JButton)e.getSource()).getName())).getVertex(lines.size()-1)){
+				return "Yes.";
+			}
+			else return "No.";
+					
+		}
 	}
 	
 	private class DeleteButtonListener implements ActionListener{
